@@ -1,0 +1,5 @@
+.idea/codeStyles
+.idea/*.xml
+*.iml
+
+node_modules
