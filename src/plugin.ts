@@ -7,7 +7,7 @@ type JoystickMovedEventCallback = (event: JoystickMovedEvent) => void;
 
 export class Plugin {
   // false to disable logging when building in release mode.
-  private static readonly logging: boolean = true;
+  private static readonly logging: boolean = false;
 
   private static longPressDuration: number = 400;
   private static longMovementDuration: number = 400;
@@ -135,10 +135,8 @@ export class Plugin {
       return;
     }
     */
-    /*
     await this.gui.send(message);
     this.gui.updateLastCommand(message);
-    */
     Plugin.log(`<chat message="${message}" />`);
   }
 
