@@ -5,7 +5,7 @@
   "main": "run.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc-bundle tsconfig.json && uglifyjs ./main.js -o ./run.js"
+    "build": "tsc-bundle tsconfig.json && uglifyjs ./main.js -o ./plugin.js"
   },
   "author": "Louis Poirier",
   "license": "MIT",
