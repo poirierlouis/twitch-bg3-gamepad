@@ -1,0 +1,17 @@
+{
+  "name": "twitch-bg3-gamepad",
+  "version": "1.0.0",
+  "description": "",
+  "main": "run.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc-bundle tsconfig.json && uglifyjs ./main.js -o ./run.js"
+  },
+  "author": "Louis Poirier",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "typescript-bundle": "^1.0.18",
+    "uglify-js": "^3.17.4"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outFile": "main.js",
+    "strict": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": [
+      "dom",
+      "ES2022"
+    ]
+  },
+  "files": [
+    "src/main.ts"
+  ]
+}

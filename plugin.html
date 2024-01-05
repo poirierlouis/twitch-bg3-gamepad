@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Twitch · BG3 · Gamepad</title>
+    <style>
+        .container {
+            z-index: 9999;
+            position: absolute;
+            display: flex;
+            flex-flow: column;
+            width: 242px;
+            height: 242px;
+            margin: 8px;
+
+            color: white;
+
+            background-color: #000610;
+            border: 2px solid #ffb600;
+            border-radius: 8px;
+        }
+
+        h3 {
+            color: #ffb600;
+            text-align: center;
+        }
+
+        p {
+            margin: 8px;
+            text-align: justify;
+        }
+
+        p.gamepad,
+        p.ws {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="twitch-bg3-gamepad" class="container">
+        <h3>Twitch · BG3 · Gamepad</h3>
+
+        <p class="gamepad">Attente de connexion d'une manette...</p>
+        <p class="ws">Attente d'envoi d'un message au chat...</p>
+        <p class="last-command">Dernière commande : <span>N/A</span></p>
+        <p class="last-input">Dernière entrée : <span>N/A</span></p>
+    </div>
+
+    <script src="./run.js"></script>
+</body>
+</html>
