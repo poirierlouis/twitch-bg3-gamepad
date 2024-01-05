@@ -9,6 +9,8 @@ export class Plugin {
   private static readonly charsets: string = 'abcdef0123456789';
   private static readonly logging: boolean = false;
 
+  private static longPressDuration: number = 400;
+
   gamepad?: Gamepad;
   input?: GamepadInput;
   lastInput?: GamepadInput;
@@ -18,6 +20,10 @@ export class Plugin {
   private ws?: WebSocket;
   private readonly events: GamepadEvents = new GamepadEvents();
   private readonly listeners: ButtonReleasedEventCallback[] = [];
+
+  static getLongPressDuration(): number {
+    return this.longPressDuration;
+  }
 
   /**
    * Whether web socket is acquired?

@@ -62,7 +62,7 @@ function listenGamepad(): void {
 function onButtonReleased(event: ButtonReleasedEvent): void {
   let command: string = event.button;
 
-  if (event.duration >= 500) {
+  if (event.duration >= Plugin.getLongPressDuration()) {
     command = `+${command}`;
   }
   plugin.send(command);
