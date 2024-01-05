@@ -78,6 +78,7 @@ export class GUI {
 
     $container.style.zIndex = '9999';
     $container.style.position = 'absolute';
+    $container.style.top = '0';
     $container.style.display = 'flex';
     $container.style.flexFlow = 'column';
     $container.style.width = '302px';
@@ -94,6 +95,7 @@ export class GUI {
   private buildTitle(): HTMLHeadElement {
     const $title: HTMLHeadElement = document.createElement('h3');
 
+    $title.style.margin = '0';
     $title.style.color = '#ffb600';
     $title.style.textAlign = 'center';
     $title.textContent = 'Twitch · BG3 · Gamepad';
@@ -103,6 +105,7 @@ export class GUI {
   private buildAuthor(): HTMLHeadElement {
     const $author: HTMLHeadElement = document.createElement('h5');
 
+    $author.style.margin = '0';
     $author.style.textAlign = 'center';
     $author.textContent = `by Rayshader · v1.0.0`;
     return $author;
