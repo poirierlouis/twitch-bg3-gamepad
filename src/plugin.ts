@@ -5,8 +5,6 @@ import {GUI} from "./gui";
 type ButtonReleasedEventCallback = (event: ButtonReleasedEvent) => void;
 
 export class Plugin {
-  private static readonly channel: string = 'alphacast';
-  private static readonly charsets: string = 'abcdef0123456789';
   private static readonly logging: boolean = false;
 
   private static longPressDuration: number = 400;
@@ -111,35 +109,18 @@ export class Plugin {
   }
 
   /**
-   * Send message through IRC web socket.
+   * Send message using UI.
    * @param message to send on chat.
    */
-  send(message: string): void {
+  async send(message: string): Promise<void> {
+    /*
     if (!this.isConnected) {
       return;
     }
-    const nonce: string = this.generateNonce();
-
-    this.ws!.send(`@client-nonce=${nonce} PRIVMSG #${Plugin.channel} :${message}`);
+    */
+    await this.gui.send(message);
     this.gui.updateLastCommand(message);
-    Plugin.log(`<websocket nonce="${nonce}" message="${message}" />`);
-  }
-
-  /**
-   * Example: 440b0ac6878756247927f996f99d7100
-   *
-   * @param length
-   * @private
-   */
-  private generateNonce(length: number = 32): string {
-    let nonce: string = '';
-
-    for (let i: number = 0; i < length; i++) {
-      let j: number = Math.floor(Math.random() * Plugin.charsets.length);
-
-      nonce += Plugin.charsets[j];
-    }
-    return nonce;
+    Plugin.log(`<chat message="${message}" />`);
   }
 
 }
