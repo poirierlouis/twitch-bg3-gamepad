@@ -1,3 +1,5 @@
+import {simulatePaste, sleep} from "./simulate";
+
 /**
  * Plugin's HTML template
  */
@@ -8,6 +10,9 @@ export class GUI {
   private readonly $ws: HTMLParagraphElement;
   private readonly $lastCommand: HTMLParagraphElement;
   private readonly $lastInput: HTMLParagraphElement;
+
+  private readonly $chatInput: HTMLDivElement = document.querySelector('.chat-wysiwyg-input__editor')!;
+  private readonly $chatSend: HTMLButtonElement = document.querySelector('button[data-a-target="chat-send-button"]')!;
 
   constructor() {
     this.$container = this.buildContainer();
@@ -38,10 +43,12 @@ export class GUI {
     $span.textContent = command;
   }
 
-  updateLastInput(input: string): void {
-    const $span: HTMLSpanElement = this.$lastInput.querySelector('span')!;
-
-    $span.textContent = input;
+  async send(command: string): Promise<void> {
+    await simulatePaste(this.$chatInput, command);
+    await sleep(42);
+    this.$chatSend.click();
+    await sleep(42);
+    this.$chatSend.click();
   }
 
   private build(): void {
