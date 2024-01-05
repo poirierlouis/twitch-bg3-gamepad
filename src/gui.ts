@@ -54,9 +54,10 @@ export class GUI {
     $container.style.position = 'absolute';
     $container.style.display = 'flex';
     $container.style.flexFlow = 'column';
-    $container.style.width = '300px';
-    $container.style.height = '242px';
+    $container.style.width = '302px';
+    $container.style.height = '192px';
     $container.style.margin = '8px';
+    $container.style.padding = '8px';
     $container.style.color = 'white';
     $container.style.backgroundColor = '#000610';
     $container.style.border = '2px solid #ffb600';
