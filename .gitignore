@@ -1,5 +1,4 @@
-.idea/codeStyles
-.idea/*.xml
+.idea/
 *.iml
 
 node_modules
