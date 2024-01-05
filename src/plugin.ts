@@ -33,13 +33,6 @@ export class Plugin {
     return !!this.ws;
   }
 
-  static error(message: string): void {
-    if (!Plugin.logging) {
-      return;
-    }
-    console.error(message);
-  }
-
   static warn(message: string): void {
     if (!Plugin.logging) {
       return;
