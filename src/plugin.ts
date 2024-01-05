@@ -1,4 +1,4 @@
-import {GamepadInput, getJoystickButton} from "./gamepad-input";
+import {GamepadInput} from "./gamepad-input";
 import {ButtonReleasedEvent, GamepadEvents, JoystickMovedEvent} from "./gamepad-event";
 import {GUI} from "./gui";
 
