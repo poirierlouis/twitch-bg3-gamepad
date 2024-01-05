@@ -40,6 +40,7 @@ export class GUI {
 
   private build(): void {
     this.$container.appendChild(this.buildTitle());
+    this.$container.appendChild(this.buildAuthor());
     this.$container.appendChild(this.$gamepad);
     this.$container.appendChild(this.$ws);
     this.$container.appendChild(this.$lastCommand);
@@ -55,7 +56,7 @@ export class GUI {
     $container.style.display = 'flex';
     $container.style.flexFlow = 'column';
     $container.style.width = '302px';
-    $container.style.height = '192px';
+    $container.style.height = '212px';
     $container.style.margin = '8px';
     $container.style.padding = '8px';
     $container.style.color = 'white';
@@ -72,6 +73,14 @@ export class GUI {
     $title.style.textAlign = 'center';
     $title.textContent = 'Twitch · BG3 · Gamepad';
     return $title;
+  }
+
+  private buildAuthor(): HTMLHeadElement {
+    const $author: HTMLHeadElement = document.createElement('h5');
+
+    $author.style.textAlign = 'center';
+    $author.textContent = 'by Rayshader';
+    return $author;
   }
 
   private buildSpan(content?: string): HTMLSpanElement {
