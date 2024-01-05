@@ -1,6 +1,6 @@
 import {Plugin, plugin} from "./plugin";
 import {GamepadInput, getInput} from "./gamepad-input";
-import {ButtonReleasedEvent} from "./gamepad-event";
+import {ButtonReleasedEvent, JoystickMovedEvent} from "./gamepad-event";
 
 /**
  * Whether browser support Gamepad API?
@@ -38,6 +38,7 @@ function onConnected(event: GamepadEvent): void {
   Plugin.log(`  <buttons size="${gamepad.buttons.length}" />`);
   Plugin.log(`  <axes size="${gamepad.axes.length}" />`);
   plugin.onReleased(onButtonReleased);
+  plugin.onMoved(onJoystickMoved);
   plugin.gui.setGamepad(true);
   listenGamepad();
   Plugin.log('<plugin (listen) />');
@@ -69,6 +70,16 @@ function onButtonReleased(event: ButtonReleasedEvent): void {
   Plugin.log(`<send command="${command}" />`);
 }
 
+function onJoystickMoved(event: JoystickMovedEvent): void {
+  let command: string = `M${event.side === 'left' ? 'L' : 'R'}${event.button}`;
+
+  if (event.duration >= Plugin.getLongMovementDuration()) {
+    command = `+${command}`;
+  }
+  plugin.send(command);
+  Plugin.log(`<send command="${command}" />`);
+}
+
 /**
  * Release gamepad on disconnection event.
  */
@@ -84,5 +95,6 @@ function onDisconnected(event: GamepadEvent): void {
   plugin.gamepad = undefined;
   plugin.gui.setGamepad(false);
   plugin.offReleased(onButtonReleased);
+  plugin.offMoved(onJoystickMoved);
   Plugin.log(`<gamepad (disconnected) index="${gamepad.index}" id="${gamepad.id}" />`);
 }

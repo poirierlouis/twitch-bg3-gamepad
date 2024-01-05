@@ -1,28 +1,26 @@
-import {GamepadInput} from "./gamepad-input";
-import {ButtonReleasedEvent, GamepadEvents} from "./gamepad-event";
+import {GamepadInput, getJoystickButton} from "./gamepad-input";
+import {ButtonReleasedEvent, GamepadEvents, JoystickMovedEvent} from "./gamepad-event";
 import {GUI} from "./gui";
 
 type ButtonReleasedEventCallback = (event: ButtonReleasedEvent) => void;
+type JoystickMovedEventCallback = (event: JoystickMovedEvent) => void;
 
 export class Plugin {
   // false to disable logging when building in release mode.
-  private static readonly logging: boolean = false;
+  private static readonly logging: boolean = true;
 
   private static longPressDuration: number = 400;
+  private static longMovementDuration: number = 400;
 
   gamepad?: Gamepad;
   input?: GamepadInput;
-  lastInput?: GamepadInput;
 
   readonly gui: GUI = new GUI();
 
   private ws?: WebSocket;
   private readonly events: GamepadEvents = new GamepadEvents();
   private readonly listeners: ButtonReleasedEventCallback[] = [];
-
-  static getLongPressDuration(): number {
-    return this.longPressDuration;
-  }
+  private readonly listenersJoystick: JoystickMovedEventCallback[] = [];
 
   /**
    * Whether web socket is acquired?
@@ -30,6 +28,14 @@ export class Plugin {
    */
   private get isConnected(): boolean {
     return !!this.ws;
+  }
+
+  static getLongPressDuration(): number {
+    return this.longPressDuration;
+  }
+
+  static getLongMovementDuration(): number {
+    return this.longMovementDuration;
   }
 
   static warn(message: string): void {
@@ -51,21 +57,10 @@ export class Plugin {
    * Trigger listeners on released events.
    */
   pushInput(input: GamepadInput): void {
-    this.lastInput = this.input;
     this.input = input;
-    this.events.consumeInput(input, this.lastInput);
-    const event: ButtonReleasedEvent | undefined = this.events.pop();
-
-    if (!event) {
-      return;
-    }
-    const duration: number = event.duration / 1000;
-
-    this.gui.updateLastInput(event.button);
-    Plugin.log(`<event (released) button="${event.button}" duration="${duration.toFixed(2)} s" />`);
-    for (const listener of this.listeners) {
-      listener(event);
-    }
+    this.events.consumeInput(input);
+    this.dispatchButtons();
+    this.dispatchMoves();
   }
 
   /**
@@ -77,11 +72,32 @@ export class Plugin {
   }
 
   /**
+   * Add listener on joystick moved events.
+   * @param fn to execute on event.
+   */
+  onMoved(fn: JoystickMovedEventCallback): void {
+    this.listenersJoystick.push(fn);
+  }
+
+  /**
    * Remove listener off button released events.
    * @param fn previously registered.
    */
   offReleased(fn: ButtonReleasedEventCallback): void {
     const listener: number = this.listeners.indexOf(fn);
+
+    if (listener === -1) {
+      return;
+    }
+    this.listeners.splice(listener, 1);
+  }
+
+  /**
+   * Remove listener off joystick moved events.
+   * @param fn previously registered.
+   */
+  offMoved(fn: JoystickMovedEventCallback): void {
+    const listener: number = this.listenersJoystick.indexOf(fn);
 
     if (listener === -1) {
       return;
@@ -119,9 +135,40 @@ export class Plugin {
       return;
     }
     */
+    /*
     await this.gui.send(message);
     this.gui.updateLastCommand(message);
+    */
     Plugin.log(`<chat message="${message}" />`);
+  }
+
+  private dispatchButtons(): void {
+    let event: ButtonReleasedEvent | undefined;
+
+    while ((event = this.events.nextButton()) !== undefined) {
+      const duration: number = event.duration / 1000;
+
+      this.gui.updateLastInput(event.button);
+      Plugin.log(`<event (released) button="${event.button}" duration="${duration.toFixed(2)} s" />`);
+      for (const listener of this.listeners) {
+        listener(event);
+      }
+    }
+  }
+
+  private dispatchMoves(): void {
+    let event: JoystickMovedEvent | undefined;
+
+    while ((event = this.events.nextJoystick()) !== undefined) {
+      const duration: number = event.duration / 1000;
+      const side: string = event.side === 'left' ? 'L' : 'R';
+
+      this.gui.updateLastInput(event.button);
+      Plugin.log(`<event (moved) side="${event.side}" button="M${side}${event.button}" duration="${duration.toFixed(2)} s" />`);
+      for (const listener of this.listenersJoystick) {
+        listener(event);
+      }
+    }
   }
 
 }

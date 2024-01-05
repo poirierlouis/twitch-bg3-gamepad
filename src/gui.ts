@@ -81,7 +81,7 @@ export class GUI {
     $container.style.display = 'flex';
     $container.style.flexFlow = 'column';
     $container.style.width = '302px';
-    $container.style.height = '188px';
+    $container.style.height = '212px';
     $container.style.margin = '8px';
     $container.style.padding = '8px';
     $container.style.color = 'white';
