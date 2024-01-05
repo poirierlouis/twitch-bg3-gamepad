@@ -1,10 +1,11 @@
 import {simulatePaste, sleep} from "./simulate";
-import {Plugin} from "./plugin";
 
 /**
  * Plugin's HTML template
  */
 export class GUI {
+
+  private isVisible: boolean = true;
 
   private readonly $container: HTMLDivElement;
   private readonly $gamepad: HTMLParagraphElement;
@@ -52,6 +53,14 @@ export class GUI {
     this.$chatSend.click();
   }
 
+  private onKeyUp(event: KeyboardEvent): void {
+    if (event.key !== '²') {
+      return;
+    }
+    this.isVisible = !this.isVisible;
+    this.$container.style.display = (this.isVisible) ? '' : 'none';
+  }
+
   private build(): void {
     this.$container.appendChild(this.buildTitle());
     this.$container.appendChild(this.buildAuthor());
@@ -59,7 +68,9 @@ export class GUI {
     //this.$container.appendChild(this.$ws);
     this.$container.appendChild(this.$lastInput);
     this.$container.appendChild(this.$lastCommand);
+    this.$container.appendChild(this.buildVisibilityTooltip());
     document.body.appendChild(this.$container);
+    document.addEventListener('keyup', this.onKeyUp.bind(this));
   }
 
   private buildContainer(): HTMLDivElement {
@@ -70,7 +81,7 @@ export class GUI {
     $container.style.display = 'flex';
     $container.style.flexFlow = 'column';
     $container.style.width = '302px';
-    $container.style.height = '212px';
+    $container.style.height = '188px';
     $container.style.margin = '8px';
     $container.style.padding = '8px';
     $container.style.color = 'white';
@@ -93,16 +104,37 @@ export class GUI {
     const $author: HTMLHeadElement = document.createElement('h5');
 
     $author.style.textAlign = 'center';
-    $author.textContent = `by Rayshader · v${Plugin.version}`;
+    $author.textContent = `by Rayshader · v1.0.0`;
     return $author;
   }
 
-  private buildSpan(content?: string): HTMLSpanElement {
+  private buildVisibilityTooltip(): HTMLSpanElement {
+    const $p: HTMLParagraphElement = document.createElement('p');
+
+    $p.style.margin = '8px';
+    $p.append(this.buildButton('²'));
+    $p.append('afficher / cacher le plugin');
+    return $p;
+  }
+
+  private buildButton(button: string): HTMLSpanElement {
+    return this.buildSpan(button, [
+      {padding: '0 8px'},
+      {marginRight: '8px'},
+      {border: '1px solid #fff'},
+      {borderBottomWidth: '3px'},
+      {borderRadius: '6px'},
+      {backgroundColor: '#ffffff36'},
+    ]);
+  }
+
+  private buildSpan(content?: string, styles: any[] = []): HTMLSpanElement {
     const $span: HTMLSpanElement = document.createElement('span');
 
     if (content) {
       $span.textContent = content;
     }
+    this.addStyles($span, styles);
     return $span;
   }
 
@@ -110,17 +142,21 @@ export class GUI {
     const $p: HTMLParagraphElement = document.createElement('p');
 
     $p.style.margin = '8px';
-    for (const style of styles) {
-      const key: string = Object.keys(style)[0];
-
-      // @ts-ignore
-      $p.style[key] = style[key];
-    }
+    this.addStyles($p, styles);
     $p.textContent = content;
     if (child) {
       $p.appendChild(child);
     }
     return $p;
+  }
+
+  private addStyles($element: HTMLElement, styles: any[]): void {
+    for (const style of styles) {
+      const key: string = Object.keys(style)[0];
+
+      // @ts-ignore
+      $element.style[key] = style[key];
+    }
   }
 
 }
