@@ -13,8 +13,8 @@ export class GUI {
     this.$container = this.buildContainer();
     this.$gamepad = this.buildParagraph('🔴 Manette en attente de connexion');
     this.$ws = this.buildParagraph('🔴 Attente d\'envoi d\'un message au chat');
-    this.$lastCommand = this.buildParagraph('💬 Dernière commande : ', [], this.buildSpan('N/A'));
     this.$lastInput = this.buildParagraph('🎮 Dernière entrée : ', [], this.buildSpan('N/A'));
+    this.$lastCommand = this.buildParagraph('💬 Dernière commande : ', [], this.buildSpan('N/A'));
     this.build();
   }
 
@@ -24,6 +24,12 @@ export class GUI {
 
   setWebSocket(): void {
     this.$ws.textContent = '🟢 Accès au chat obtenu';
+  }
+
+  updateLastInput(input: string): void {
+    const $span: HTMLSpanElement = this.$lastInput.querySelector('span')!;
+
+    $span.textContent = input;
   }
 
   updateLastCommand(command: string): void {
@@ -43,8 +49,8 @@ export class GUI {
     this.$container.appendChild(this.buildAuthor());
     this.$container.appendChild(this.$gamepad);
     this.$container.appendChild(this.$ws);
-    this.$container.appendChild(this.$lastCommand);
     this.$container.appendChild(this.$lastInput);
+    this.$container.appendChild(this.$lastCommand);
     document.body.appendChild(this.$container);
   }
 
