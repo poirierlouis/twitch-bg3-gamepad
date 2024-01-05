@@ -1,4 +1,5 @@
 import {simulatePaste, sleep} from "./simulate";
+import {Plugin} from "./plugin";
 
 /**
  * Plugin's HTML template
@@ -92,7 +93,7 @@ export class GUI {
     const $author: HTMLHeadElement = document.createElement('h5');
 
     $author.style.textAlign = 'center';
-    $author.textContent = 'by Rayshader';
+    $author.textContent = `by Rayshader · v${Plugin.version}`;
     return $author;
   }
 

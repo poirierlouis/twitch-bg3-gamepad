@@ -5,6 +5,9 @@ import {GUI} from "./gui";
 type ButtonReleasedEventCallback = (event: ButtonReleasedEvent) => void;
 
 export class Plugin {
+  public static readonly version: string = '1.0.0';
+
+  // false to disable logging when building in release mode.
   private static readonly logging: boolean = false;
 
   private static longPressDuration: number = 400;
