@@ -6,7 +6,7 @@ Permet d'utiliser une manette de console pour envoyer les commandes au chat simp
 
 ## Installation
 
-1. Ouvrir le fichier `plugin.js` ci-dessus.
+1. Ouvrir le fichier [plugin.js](plugin.js) ci-dessus.
 2. Copier tout le code (`CTRL+A` > `CTRL+C`).
 3. Ouvrir (ou accéder) à l'onglet Twitch, avec la chaîne et le chat d'ouvert.
 4. Ouvrir la console de développeur (`CTRL+SHIFT+I`).
@@ -43,7 +43,7 @@ You need NPM (with Node.js) on your system.
 
 This will output a `plugin.js` which contains the entire codebase to copy/paste in browser's DevTools. This is the file to release to users.
 
-When developing, you can enable logging by changing [Plugin.logging] to be `true`. You can load the file `plugin.html` directly in your browser using your IDE. This is a mock-like file to test most of the features and work on plugin's UI. You have to manually rebuild the project when you write changes.
+When developing, you can enable logging by changing [Plugin%2Elogging] to `true`. You can load the file `plugin.html` directly in your browser using your IDE. This is a mock-like file to test most of the features and work on plugin's UI. You have to manually rebuild the project when you write changes.
 
 <!-- Table of links -->
-[Plugin.loggin]: https://github.com/poirierlouis/twitch-bg3-gamepad/blob/9934344945bd4242acd49d219020673a3d0c8d3f/src/plugin.ts#L10
+[Plugin%2Elogging]: https://github.com/poirierlouis/twitch-bg3-gamepad/blob/9934344945bd4242acd49d219020673a3d0c8d3f/src/plugin.ts#L10
