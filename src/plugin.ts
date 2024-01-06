@@ -17,6 +17,7 @@ export class Plugin {
 
   readonly gui: GUI = new GUI();
 
+  // @deprecated ignore web socket, unable to send genuine chat messages.
   private ws?: WebSocket;
   private readonly events: GamepadEvents = new GamepadEvents();
   private readonly listeners: ButtonReleasedEventCallback[] = [];
@@ -24,6 +25,7 @@ export class Plugin {
 
   /**
    * Whether web socket is acquired?
+   * @deprecated ignore web socket, unable to send genuine chat messages.
    * @private
    */
   private get isConnected(): boolean {
@@ -107,6 +109,7 @@ export class Plugin {
 
   /**
    * Whether IRC web socket is already registered internally.
+   * @deprecated ignore web socket, unable to send genuine chat messages.
    */
   hasWebSocket(): boolean {
     return !!this.ws;
@@ -114,6 +117,7 @@ export class Plugin {
 
   /**
    * Register web socket.
+   * @deprecated ignore web socket, unable to send genuine chat messages.
    * @param ws
    */
   addWebSocket(ws: WebSocket): void {
