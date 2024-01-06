@@ -20,6 +20,7 @@ export function start(): void {
   }
   window.addEventListener('gamepadconnected', onConnected);
   window.addEventListener('gamepaddisconnected', onDisconnected);
+  document.addEventListener('keyup', onKeyUp);
   Plugin.log('<plugin (start) />');
 }
 
@@ -58,6 +59,19 @@ function listenGamepad(): void {
 
   plugin.pushInput(input);
   requestAnimationFrame(listenGamepad);
+}
+
+const digits: string = `&é"'(-è_çà)=`;
+
+function onKeyUp(event: KeyboardEvent): void {
+  if (!digits.includes(event.key)) {
+    return;
+  }
+  const digit: number = digits.indexOf(event.key) + 1;
+
+  plugin.gui.updateLastInput(digit.toString());
+  plugin.send(digit.toString());
+  Plugin.log(`<digit command="${digit}" />`);
 }
 
 function onButtonReleased(event: ButtonReleasedEvent): void {
