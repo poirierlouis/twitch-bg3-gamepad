@@ -63,6 +63,3 @@ When developing, you can enable logging by changing
 to `true`. You can load the file `plugin.html` directly in your browser using 
 your IDE. This is a mock-like file to test most of the features and work on 
 plugin's UI. You have to manually rebuild the project when you write changes.
-
-<!-- Table of links -->
-[Plugin%2Elogging]: 
