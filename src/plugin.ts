@@ -121,7 +121,7 @@ export class Plugin {
       return;
     }
     this.ws = ws;
-    this.gui.setWebSocket();
+    //this.gui.setWebSocket();
     Plugin.log(`<plugin (websocket) />`);
   }
 
@@ -135,6 +135,9 @@ export class Plugin {
       return;
     }
     */
+    if (!this.gui.isChatAcquired) {
+      return;
+    }
     await this.gui.send(message);
     this.gui.updateLastCommand(message);
     Plugin.log(`<chat message="${message}" />`);

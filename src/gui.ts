@@ -9,28 +9,37 @@ export class GUI {
 
   private readonly $container: HTMLDivElement;
   private readonly $gamepad: HTMLParagraphElement;
-  //private readonly $ws: HTMLParagraphElement;
+  private readonly $chat: HTMLParagraphElement;
   private readonly $lastCommand: HTMLParagraphElement;
   private readonly $lastInput: HTMLParagraphElement;
 
-  private readonly $chatInput: HTMLDivElement = document.querySelector('.chat-wysiwyg-input__editor')!;
-  private readonly $chatSend: HTMLButtonElement = document.querySelector('button[data-a-target="chat-send-button"]')!;
+  private readonly $chatInput: HTMLDivElement | null = document.querySelector('.chat-wysiwyg-input__editor');
+  private readonly $chatSend: HTMLButtonElement | null = document.querySelector('button[data-a-target="chat-send-button"]');
 
   constructor() {
     this.$container = this.buildContainer();
     this.$gamepad = this.buildParagraph('🔴 Manette en attente de connexion');
-    //this.$ws = this.buildParagraph('🔴 Attente d\'envoi d\'un message au chat');
-    this.$lastInput = this.buildParagraph('🎮 Dernière entrée : ', [], this.buildSpan('N/A'));
-    this.$lastCommand = this.buildParagraph('💬 Dernière commande : ', [], this.buildSpan('N/A'));
+    this.$chat = this.buildParagraph('🔴 Chat en attente de détection');
+    this.$lastInput = this.buildParagraph('🎮 Dernière entrée : ', [{'color': '#ffffff7f'}], this.buildSpan('N/A'));
+    this.$lastCommand = this.buildParagraph('💬 Dernière commande : ', [{'color': '#ffffff7f'}], this.buildSpan('N/A'));
     this.build();
+    if (this.isChatAcquired) {
+      this.setChatAcquired();
+    }
+  }
+
+  get isChatAcquired(): boolean {
+    return this.$chatInput !== null && this.$chatSend !== null;
   }
 
   setGamepad(isConnected: boolean): void {
     this.$gamepad.textContent = isConnected ? '🟢 Manette connectée' : '🔴 Manette en attente de connexion';
+    this.$lastInput.style.color = isConnected ? '' : '#ffffff7f';
   }
 
-  setWebSocket(): void {
-    //this.$ws.textContent = '🟢 Accès au chat obtenu';
+  setChatAcquired(): void {
+    this.$chat.textContent = '🟢 Accès au chat obtenu';
+    this.$lastCommand.style.color = '';
   }
 
   updateLastInput(input: string): void {
@@ -46,6 +55,9 @@ export class GUI {
   }
 
   async send(command: string): Promise<void> {
+    if (!this.$chatInput || !this.$chatSend) {
+      return;
+    }
     await simulatePaste(this.$chatInput, command);
     await sleep(42);
     this.$chatSend.click();
@@ -65,7 +77,7 @@ export class GUI {
     this.$container.appendChild(this.buildTitle());
     this.$container.appendChild(this.buildAuthor());
     this.$container.appendChild(this.$gamepad);
-    //this.$container.appendChild(this.$ws);
+    this.$container.appendChild(this.$chat);
     this.$container.appendChild(this.$lastInput);
     this.$container.appendChild(this.$lastCommand);
     this.$container.appendChild(this.buildVisibilityTooltip());
@@ -82,7 +94,7 @@ export class GUI {
     $container.style.display = 'flex';
     $container.style.flexFlow = 'column';
     $container.style.width = '302px';
-    $container.style.height = '212px';
+    $container.style.height = '248px';
     $container.style.margin = '8px';
     $container.style.padding = '8px';
     $container.style.color = 'white';

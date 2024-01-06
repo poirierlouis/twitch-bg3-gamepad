@@ -10,7 +10,7 @@
             display: flex;
             flex-flow: column;
             width: 302px;
-            height: 192px;
+            height: 221px;
             margin: 8px;
             padding: 8px;
 
@@ -30,6 +30,7 @@
 
         h5 {
             margin: 0;
+            text-align: center;
         }
 
         p {
@@ -37,9 +38,20 @@
             text-align: justify;
         }
 
-        p.gamepad,
-        p.ws {
-            text-align: center;
+        .last-input,
+        .last-command {
+            color: #ffffff7f;
+        }
+
+        span.btn {
+            margin-right: 8px;
+            padding: 0 8px;
+
+            border: 1px solid #fff;
+            border-bottom-width: 3px;
+            border-radius: 6px;
+
+            background-color: #ffffff36;
         }
     </style>
 </head>
@@ -48,11 +60,15 @@
         <h3>Twitch · BG3 · Gamepad</h3>
         <h5>by Rayshader · v1.0.0</h5>
 
-        <p class="gamepad">Attente de connexion d'une manette...</p>
-        <!-- <p class="ws">Attente d'envoi d'un message au chat...</p> -->
-        <p class="last-input">Dernière entrée : <span>N/A</span></p>
-        <p class="last-command">Dernière commande : <span>N/A</span></p>
+        <p class="gamepad">🔴 Manette en attente de connexion</p>
+        <p class="chat">🔴 Chat en attente de détection</p>
+        <p class="last-input">🎮 Dernière entrée : <span>N/A</span></p>
+        <p class="last-command">💬 Dernière commande : <span>N/A</span></p>
+        <p class="hint"><span class="btn">²</span> afficher / cacher le plugin</p>
     </div>
+
+    <div id="fake-chat-input" class="chat-wysiwyg-input__editor"></div>
+    <button id="fake-chat-button" data-a-target="chat-send-button">CHAT</button>
 
     <script src="./plugin.js"></script>
 </body>
