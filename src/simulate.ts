@@ -11,6 +11,18 @@ export async function simulatePaste($element: HTMLElement, message: string): Pro
   $element.dispatchEvent(buildPasteEvent(message));
 }
 
+/**
+ * Simulate erase event to delete message.
+ * @param $element input to erase content.
+ */
+export async function simulateErase($element: HTMLElement): Promise<void> {
+  document.dispatchEvent(buildFocusEvent());
+  $element.dispatchEvent(buildFocusEvent());
+  $element.click();
+  await sleep(50);
+  $element.dispatchEvent(buildEraseEvent());
+}
+
 function buildPasteEvent(message: string): Event {
   const event: Event = new Event('paste', {
     bubbles: true,
@@ -23,6 +35,16 @@ function buildPasteEvent(message: string): Event {
     getData: () => message
   };
   return event;
+}
+
+function buildEraseEvent(): Event {
+  return new InputEvent('beforeinput', {
+    view: window,
+    bubbles: true,
+    cancelable: true,
+    composed: true,
+    inputType: 'deleteHardLineBackward'
+  });
 }
 
 function buildFocusEvent(options?: any): Event {

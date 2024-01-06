@@ -144,7 +144,25 @@ export class Plugin {
     }
     await this.gui.send(message);
     this.gui.updateLastCommand(message);
+    setTimeout(this.detectChatError.bind(this), 300);
     Plugin.log(`<chat message="${message}" />`);
+  }
+
+  /**
+   * Test if an error occurred due to "spamming" chat. Reset input for next command.
+   * @private
+   */
+  private async detectChatError(): Promise<void> {
+    if (!this.gui.hasChatError) {
+      return;
+    }
+    await this.gui.erase();
+    const $close: HTMLButtonElement | null = this.gui.$closeChatErrorPopup;
+
+    if (!$close) {
+      return;
+    }
+    $close.click();
   }
 
   private dispatchButtons(): void {

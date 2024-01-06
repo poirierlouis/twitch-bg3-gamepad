@@ -1,4 +1,4 @@
-import {simulatePaste, sleep} from "./simulate";
+import {simulateErase, simulatePaste, sleep} from "./simulate";
 
 /**
  * Plugin's HTML template
@@ -32,6 +32,20 @@ export class GUI {
     return this.$chatInput !== null && this.$chatSend !== null;
   }
 
+  /**
+   * Whether an error arisen when using chat?
+   */
+  get hasChatError(): boolean {
+    return document.querySelector('.chat-input-tray__open') !== null;
+  }
+
+  /**
+   * Get button to close chat error popup.
+   */
+  get $closeChatErrorPopup(): HTMLButtonElement | null {
+    return document.querySelector('.chat-input-tray__open button[title="Close"]');
+  }
+
   setGamepad(isConnected: boolean): void {
     this.$gamepad.textContent = isConnected ? '🟢 Manette connectée' : '🔴 Manette en attente de connexion';
     this.$lastInput.style.color = isConnected ? '' : '#ffffff7f';
@@ -63,6 +77,13 @@ export class GUI {
     this.$chatSend.click();
     await sleep(42);
     this.$chatSend.click();
+  }
+
+  async erase(): Promise<void> {
+    if (!this.$chatInput) {
+      return;
+    }
+    await simulateErase(this.$chatInput);
   }
 
   private onKeyUp(event: KeyboardEvent): void {
