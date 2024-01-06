@@ -99,6 +99,7 @@ function pollGamepad(): void {
   requestAnimationFrame(pollGamepad);
 }
 
+// Map digit characters using AZERTY keyboard.
 const digits: string = `&é"'(-è_çà)=`;
 
 function onKeyUp(event: KeyboardEvent): void {
