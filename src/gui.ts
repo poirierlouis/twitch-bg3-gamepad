@@ -1,4 +1,4 @@
-import {simulateErase, simulatePaste, sleep} from "./simulate";
+import {simulateBlur, simulateErase, simulatePaste, sleep} from "./simulate";
 
 /**
  * Plugin's HTML template
@@ -77,6 +77,8 @@ export class GUI {
     this.$chatSend.click();
     await sleep(42);
     this.$chatSend.click();
+    await sleep(42);
+    simulateBlur(this.$chatInput);
   }
 
   async erase(): Promise<void> {

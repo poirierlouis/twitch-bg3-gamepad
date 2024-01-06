@@ -23,6 +23,16 @@ export async function simulateErase($element: HTMLElement): Promise<void> {
   $element.dispatchEvent(buildEraseEvent());
 }
 
+/**
+ * Simulate blur event to lose focus from $element.
+ * @param $element
+ */
+export function simulateBlur($element: HTMLElement): void {
+  $element.dispatchEvent(buildBlurEvent());
+  document.dispatchEvent(buildFocusEvent());
+  document.body.click();
+}
+
 function buildPasteEvent(message: string): Event {
   const event: Event = new Event('paste', {
     bubbles: true,
@@ -60,6 +70,21 @@ function buildFocusEvent(options?: any): Event {
     eventInit = Object.assign({}, eventInit, options);
   }
   return new FocusEvent('focus', eventInit);
+}
+
+function buildBlurEvent(options?: any): Event {
+  let eventInit: any = {
+    bubbles: true,
+    cancelable: true,
+    composed: true,
+    detail: 0,
+    which: 0,
+  };
+
+  if (options) {
+    eventInit = Object.assign({}, eventInit, options);
+  }
+  return new FocusEvent('blur', eventInit);
 }
 
 /**
