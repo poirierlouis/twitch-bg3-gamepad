@@ -24,6 +24,7 @@ export class Plugin {
 
   readonly gui: GUI = new GUI();
 
+  private dropFirstCommand: boolean = true;
   private randomize: RandomizeCase = RandomizeCase.upper;
   private readonly events: GamepadEvents = new GamepadEvents();
   private readonly listeners: ButtonReleasedEventCallback[] = [];
@@ -108,6 +109,11 @@ export class Plugin {
    * @param message to send on chat.
    */
   async send(message: string): Promise<void> {
+    if (this.dropFirstCommand) {
+      this.dropFirstCommand = false;
+      Plugin.log('<plugin (drop-command) />');
+      return;
+    }
     if (!this.gui.isChatAcquired) {
       return;
     }
