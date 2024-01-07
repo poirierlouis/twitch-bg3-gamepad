@@ -7,7 +7,7 @@ simplement et rapidement.
 
 ## Installation
 
-1. Ouvrir le fichier [plugin.js](plugin.js) ci-dessus.
+1. Ouvrir le fichier [plugin.js](https://github.com/poirierlouis/twitch-bg3-gamepad/releases/latest).
 2. Copier tout le code (`CTRL+A` > `CTRL+C`).
 3. Ouvrir (ou accéder) à l'onglet Twitch, avec la chaîne et le chat d'ouvert.
 4. Ouvrir la console de développeur (`CTRL+SHIFT+I`).
