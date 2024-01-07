@@ -13,7 +13,6 @@ export class Plugin {
   private static longMovementDuration: number = 400;
 
   gamepad?: Gamepad;
-  input?: GamepadInput;
 
   readonly gui: GUI = new GUI();
 
@@ -59,7 +58,6 @@ export class Plugin {
    * Trigger listeners on released events.
    */
   pushInput(input: GamepadInput): void {
-    this.input = input;
     this.events.consumeInput(input);
     this.dispatchButtons();
     this.dispatchMoves();
