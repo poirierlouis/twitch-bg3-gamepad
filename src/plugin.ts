@@ -24,21 +24,10 @@ export class Plugin {
 
   readonly gui: GUI = new GUI();
 
-  // @deprecated ignore web socket, unable to send genuine chat messages.
-  private ws?: WebSocket;
   private randomize: RandomizeCase = RandomizeCase.upper;
   private readonly events: GamepadEvents = new GamepadEvents();
   private readonly listeners: ButtonReleasedEventCallback[] = [];
   private readonly listenersJoystick: JoystickMovedEventCallback[] = [];
-
-  /**
-   * Whether web socket is acquired?
-   * @deprecated ignore web socket, unable to send genuine chat messages.
-   * @private
-   */
-  private get isConnected(): boolean {
-    return !!this.ws;
-  }
 
   static getLongPressDuration(): number {
     return this.longPressDuration;
@@ -115,37 +104,10 @@ export class Plugin {
   }
 
   /**
-   * Whether IRC web socket is already registered internally.
-   * @deprecated ignore web socket, unable to send genuine chat messages.
-   */
-  hasWebSocket(): boolean {
-    return !!this.ws;
-  }
-
-  /**
-   * Register web socket.
-   * @deprecated ignore web socket, unable to send genuine chat messages.
-   * @param ws
-   */
-  addWebSocket(ws: WebSocket): void {
-    if (ws.url !== 'wss://irc-ws.chat.twitch.tv/') {
-      return;
-    }
-    this.ws = ws;
-    //this.gui.setWebSocket();
-    Plugin.log(`<plugin (websocket) />`);
-  }
-
-  /**
    * Send message using UI.
    * @param message to send on chat.
    */
   async send(message: string): Promise<void> {
-    /*
-    if (!this.isConnected) {
-      return;
-    }
-    */
     if (!this.gui.isChatAcquired) {
       return;
     }
