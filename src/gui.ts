@@ -143,7 +143,7 @@ export class GUI {
 
     $author.style.margin = '0';
     $author.style.textAlign = 'center';
-    $author.textContent = `by Rayshader · v1.0.0`;
+    $author.textContent = `by Rayshader · v1.0.1`;
     return $author;
   }
 
