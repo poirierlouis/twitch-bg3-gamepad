@@ -110,7 +110,6 @@ function onKeyUp(event: KeyboardEvent): void {
 
   plugin.gui.updateLastInput(digit.toString());
   plugin.send(digit.toString());
-  Plugin.log(`<digit command="${digit}" />`);
 }
 
 function onButtonReleased(event: ButtonReleasedEvent): void {
@@ -120,7 +119,6 @@ function onButtonReleased(event: ButtonReleasedEvent): void {
     command = `+${command}`;
   }
   plugin.send(command);
-  Plugin.log(`<send command="${command}" />`);
 }
 
 function onJoystickMoved(event: JoystickMovedEvent): void {
@@ -130,7 +128,6 @@ function onJoystickMoved(event: JoystickMovedEvent): void {
     command = `+${command}`;
   }
   plugin.send(command);
-  Plugin.log(`<send command="${command}" />`);
 }
 
 /**

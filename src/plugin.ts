@@ -119,7 +119,7 @@ export class Plugin {
     if (this.randomize === RandomizeCase.size) {
       this.randomize = 0;
     }
-    Plugin.log(`<chat message="${message}" />`);
+    Plugin.log(`<send command="${message}" />`);
   }
 
   /**
