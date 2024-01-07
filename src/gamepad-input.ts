@@ -85,7 +85,7 @@ function isButtonPressed(button: GamepadButton): boolean {
 
 /**
  * Get virtual button's name based on joystick position. Length must be above activation threshold.
- * See https://i.imgur.com/2CEZRex.png
+ * See https://i.imgur.com/MWPs3ZX.png
  * @param event
  */
 export function getJoystickButton(event: JoystickEvent): string {
