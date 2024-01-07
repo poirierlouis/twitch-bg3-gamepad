@@ -79,6 +79,8 @@ export class GUI {
     this.$chatSend.click();
     await sleep(42);
     simulateBlur(this.$chatInput);
+    await sleep(42);
+    simulateBlur(this.$chatInput);
   }
 
   async erase(): Promise<void> {
