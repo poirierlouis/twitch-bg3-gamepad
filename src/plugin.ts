@@ -5,6 +5,14 @@ import {GUI} from "./gui";
 type ButtonReleasedEventCallback = (event: ButtonReleasedEvent) => void;
 type JoystickMovedEventCallback = (event: JoystickMovedEvent) => void;
 
+enum RandomizeCase {
+  upper,
+  lower,
+  first,
+  last,
+  size
+}
+
 export class Plugin {
   // false to disable logging when building in release mode.
   private static readonly logging: boolean = false;
@@ -18,6 +26,7 @@ export class Plugin {
 
   // @deprecated ignore web socket, unable to send genuine chat messages.
   private ws?: WebSocket;
+  private randomize: RandomizeCase = RandomizeCase.upper;
   private readonly events: GamepadEvents = new GamepadEvents();
   private readonly listeners: ButtonReleasedEventCallback[] = [];
   private readonly listenersJoystick: JoystickMovedEventCallback[] = [];
@@ -140,9 +149,14 @@ export class Plugin {
     if (!this.gui.isChatAcquired) {
       return;
     }
+    message = this.randomizeCommand(message);
     await this.gui.send(message);
     this.gui.updateLastCommand(message);
     setTimeout(this.detectChatError.bind(this), 300);
+    this.randomize++;
+    if (this.randomize === RandomizeCase.size) {
+      this.randomize = 0;
+    }
     Plugin.log(`<chat message="${message}" />`);
   }
 
@@ -189,6 +203,34 @@ export class Plugin {
       for (const listener of this.listenersJoystick) {
         listener(event);
       }
+    }
+  }
+
+  private randomizeCommand(message: string): string {
+    const isNumber: number = parseInt(message);
+
+    if (isNumber >= 1 && isNumber <= 12) {
+      return message;
+    }
+    let offset: number = 0;
+
+    if (message[0] === '+') {
+      offset++;
+    }
+    let randomize: RandomizeCase = this.randomize;
+
+    // Upper / Lower only when command is a single letter.
+    if (message.length === 1) {
+      randomize %= 2;
+    }
+    if (randomize === RandomizeCase.upper) {
+      return message.toUpperCase();
+    } else if (randomize === RandomizeCase.first) {
+      return `${message.substring(0, offset + 1).toUpperCase()}${message.substring(offset + 1).toLowerCase()}`;
+    } else if (randomize === RandomizeCase.last) {
+      return `${message.substring(0, message.length - 1).toLowerCase()}${message.substring(message.length - 1).toUpperCase()}`;
+    } else {
+      return message.toLowerCase();
     }
   }
 
