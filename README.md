@@ -20,7 +20,7 @@ simplement et rapidement.
 
 ## Mode d'emploi
 1. Brancher une manette de console.
-2. Appuyer sur `START` ou n'importe quelle touche pour connecter la manette.
+2. Appuyer sur une touche pour connecter la manette.
 > Brancher uniquement la manette n'est pas forcément suffisant pour que le 
 > navigateur la détecte.
 3. Utiliser les touches et les joysticks de votre manette pour automatiquement 
@@ -34,7 +34,8 @@ quitter l'onglet. Vous devrez reproduire la procédure d'installation pour
 utiliser le plugin à nouveau.
 
 Le plugin affiche quelques informations en haut à gauche du navigateur. Vous 
-pouvez afficher/cacher l'interface en appuyant sur la touche `²` au clavier.
+pouvez afficher/cacher l'interface en appuyant sur la touche `²` du clavier ou
+la touche `START` de la manette.
 
 En plus des boutons / joysticks de la manette, vous pouvez directement utiliser
 les touches `&é"'(-è_çà)=` pour envoyer un nombre en commande. Les touches 
