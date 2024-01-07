@@ -48,6 +48,15 @@ export class JoystickEvents {
     }
     return undefined;
   }
+
+  /**
+   * Reset all joystick events.
+   */
+  reset(): void {
+    for (const button of JoystickEvents.buttons) {
+      this[button] = undefined;
+    }
+  }
 }
 
 export class GamepadEvents {
@@ -158,7 +167,7 @@ export class GamepadEvents {
       }
     } else if (this.isInDeadZone(event) && activeButton !== undefined) {
       this.queueJoysticks.push(events[activeButton]!);
-      events[activeButton] = undefined;
+      events.reset();
     }
   }
 

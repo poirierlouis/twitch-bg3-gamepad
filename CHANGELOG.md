@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - drop first command after detecting a gamepad.
+- prevent multiple commands to be sent while moving joystick in different positions.
 
 ### Changed
 - improve performance when polling for a gamepad, Chrome only.
