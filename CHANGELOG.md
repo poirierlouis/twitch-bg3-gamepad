@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - drop first command after detecting a gamepad.
 
 ### Changed
+- improve performance when polling for a gamepad, Chrome only.
 - reduce bundle size.
 
 ------------------------
