@@ -90,12 +90,16 @@ export class GUI {
     await simulateErase(this.$chatInput);
   }
 
+  toggleVisibility(): void {
+    this.isVisible = !this.isVisible;
+    this.$container.style.display = (this.isVisible) ? '' : 'none';
+  }
+
   private onKeyUp(event: KeyboardEvent): void {
     if (event.key !== '²') {
       return;
     }
-    this.isVisible = !this.isVisible;
-    this.$container.style.display = (this.isVisible) ? '' : 'none';
+    this.toggleVisibility();
   }
 
   private build(): void {
@@ -152,14 +156,16 @@ export class GUI {
 
     $p.style.margin = '8px';
     $p.append(this.buildButton('²'));
+    $p.append(' ou ');
+    $p.append(this.buildButton('START', [{marginRight: '4px'}]));
     $p.append('afficher / cacher le plugin');
     return $p;
   }
 
-  private buildButton(button: string): HTMLSpanElement {
+  private buildButton(button: string, styles: any[] = []): HTMLSpanElement {
     return this.buildSpan(button, [
+      ...styles,
       {padding: '0 8px'},
-      {marginRight: '8px'},
       {border: '1px solid #fff'},
       {borderBottomWidth: '3px'},
       {borderRadius: '6px'},

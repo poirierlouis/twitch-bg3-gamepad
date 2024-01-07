@@ -43,7 +43,6 @@
         }
 
         span.btn {
-            margin-right: 8px;
             padding: 0 8px;
 
             border: 1px solid #fff;
@@ -51,6 +50,10 @@
             border-radius: 6px;
 
             background-color: #ffffff36;
+        }
+
+        span.btn:last-of-type {
+            margin-right: 4px;
         }
     </style>
 </head>
@@ -63,7 +66,7 @@
         <p class="chat">🔴 Chat en attente de détection</p>
         <p class="last-input">🎮 Dernière entrée : <span>N/A</span></p>
         <p class="last-command">💬 Dernière commande : <span>N/A</span></p>
-        <p class="hint"><span class="btn">²</span> afficher / cacher le plugin</p>
+        <p class="hint"><span class="btn">²</span> ou <span class="btn">START</span> afficher / cacher le plugin</p>
     </div>
 
     <div id="fake-chat-input" class="chat-wysiwyg-input__editor"></div>

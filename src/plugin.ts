@@ -52,6 +52,10 @@ export class Plugin {
     console.log(message);
   }
 
+  constructor() {
+    this.onReleased(this.onButtonReleased.bind(this));
+  }
+
   /**
    * Push current input and consume it to build events.
    * Trigger listeners on released events.
@@ -172,6 +176,13 @@ export class Plugin {
         listener(event);
       }
     }
+  }
+
+  private onButtonReleased(event: ButtonReleasedEvent): void {
+    if (event.button !== 'START') {
+      return;
+    }
+    this.gui.toggleVisibility();
   }
 
   private randomizeCommand(message: string): string {

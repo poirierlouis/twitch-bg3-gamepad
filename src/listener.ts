@@ -113,6 +113,9 @@ function onKeyUp(event: KeyboardEvent): void {
 }
 
 function onButtonReleased(event: ButtonReleasedEvent): void {
+  if (event.button === 'START') {
+    return;
+  }
   let command: string = event.button;
 
   if (event.duration >= Plugin.getLongPressDuration()) {

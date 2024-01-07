@@ -21,6 +21,8 @@ export interface GamepadInput {
   readonly LB: boolean;
   readonly RB: boolean;
 
+  readonly START: boolean;
+
   readonly L3: boolean;
   readonly R3: boolean;
 
@@ -58,6 +60,8 @@ const GAMEPAD_BINDING: GamepadBind[] = [
 
   {index: 6, button: 'LB'},
   {index: 7, button: 'RB'},
+
+  {index: 9, button: 'START'},
 
   {index: 10, button: 'L3'},
   {index: 11, button: 'R3'}
