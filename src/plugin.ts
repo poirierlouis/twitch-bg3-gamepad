@@ -21,6 +21,7 @@ export class Plugin {
   private static longMovementDuration: number = 400;
 
   gamepad?: Gamepad;
+  pollID?: number;
 
   readonly gui: GUI = new GUI();
 

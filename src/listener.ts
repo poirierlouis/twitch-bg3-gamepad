@@ -27,7 +27,7 @@ export function start(): void {
   }
   document.addEventListener('keyup', onKeyUp);
   if (!canListenGamepadEvents()) {
-    pollGamepad();
+    plugin.pollID = setInterval(pollGamepad, 500);
     Plugin.log('<plugin (poll) />');
   } else {
     window.addEventListener('gamepadconnected', onConnected);
@@ -86,7 +86,6 @@ function pollGamepad(): void {
   const gamepads: Gamepad[] = navigator.getGamepads() as Gamepad[];
 
   if (gamepads.length === 0) {
-    requestAnimationFrame(pollGamepad);
     return;
   }
   const gamepad: Gamepad | null = gamepads[0];
@@ -96,7 +95,6 @@ function pollGamepad(): void {
   } else if (plugin.gamepad === undefined) {
     onConnected(<any>{gamepad: gamepad});
   }
-  requestAnimationFrame(pollGamepad);
 }
 
 // Map digit characters using AZERTY keyboard.
