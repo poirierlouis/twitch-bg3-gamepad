@@ -43,6 +43,11 @@ correspondent, dans l'ordre, aux commandes `1`, `2`, `3`, `4`, `5`, `6`, `7`,
 `8`, `9`, `10`, `11`, `12`. Cela fonctionne pour un clavier AZERTY sans 
 maintenir la touche `SHIFT`.
 
+Vous pouvez modifier des options en déroulant le panneau de configuration via 
+l'icône `v`. Un changement prend effet en cliquant en dehors du champ modifié.
+Les changements sont enregistrés dans votre navigateur. Ils seront restitués 
+automatiquement lors de l'installation du plugin.
+
 ## Development
 
 You need NPM (with Node.js) on your system.
@@ -60,7 +65,9 @@ This will output a `plugin.js` which contains the entire codebase to copy/paste
 in browser's DevTools. This is the file to release to users.
 
 When developing, you can enable logging by changing 
-[Plugin.logging](https://github.com/poirierlouis/twitch-bg3-gamepad/blob/9934344945bd4242acd49d219020673a3d0c8d3f/src/plugin.ts#L10) 
-to `true`. You can load the file `plugin.html` directly in your browser using 
-your IDE. This is a mock-like file to test most of the features and work on 
-plugin's UI. You have to manually rebuild the project when you write changes.
+[Plugin.logging](https://github.com/poirierlouis/twitch-bg3-gamepad/blob/1a23261f5ac7a0df97d0f47f9bd8009f562129b9/src/plugin.ts#L16) 
+to `true`. 
+
+You can open `plugin.html` in your browser and run project with hot-reload 
+using:
+> npm run watch
