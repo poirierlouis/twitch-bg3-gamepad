@@ -3,72 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Twitch · BG3 · Gamepad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <style>
-        .container {
-            z-index: 9999;
-            position: absolute;
-            display: flex;
-            flex-flow: column;
-            width: 302px;
-            margin: 8px;
-            padding: 8px;
-
-            color: white;
-
-            background-color: #000610;
-            border: 2px solid #ffb600;
-            border-radius: 8px;
-        }
-
-        h3 {
-            margin: 0;
-
-            color: #ffb600;
-            text-align: center;
-        }
-
-        h5 {
-            margin: 0;
-            text-align: center;
-        }
-
-        p {
-            margin: 8px;
-            text-align: justify;
-        }
-
-        .last-input,
-        .last-command {
-            color: #ffffff7f;
-        }
-
-        span.btn {
-            padding: 0 8px;
-
-            border: 1px solid #fff;
-            border-bottom-width: 3px;
-            border-radius: 6px;
-
-            background-color: #ffffff36;
-        }
-
-        span.btn:last-of-type {
-            margin-right: 4px;
+        html, body {
+            font-family: "Roboto", serif;
         }
     </style>
 </head>
 <body>
-    <div id="twitch-bg3-gamepad" class="container">
-        <h3>Twitch · BG3 · Gamepad</h3>
-        <h5>by Rayshader · v1.1.0</h5>
-
-        <p class="gamepad">🔴 Manette en attente de connexion</p>
-        <p class="chat">🔴 Chat en attente de détection</p>
-        <p class="last-input">🎮 Dernière entrée : <span>N/A</span></p>
-        <p class="last-command">💬 Dernière commande : <span>N/A</span></p>
-        <p class="hint"><span class="btn">²</span> ou <span class="btn">START</span> afficher / cacher le plugin</p>
-    </div>
-
     <div id="fake-chat-input" class="chat-wysiwyg-input__editor"></div>
     <button id="fake-chat-button" data-a-target="chat-send-button">CHAT</button>
 

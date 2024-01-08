@@ -84,7 +84,7 @@ export class Plugin {
       return;
     }
     await this.gui.erase();
-    const $close: HTMLButtonElement | null = this.gui.$closeChatErrorPopup;
+    const $close: HTMLButtonElement | null = this.gui.$btnCloseChatPopup;
 
     if (!$close) {
       return;

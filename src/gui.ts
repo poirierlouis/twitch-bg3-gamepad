@@ -1,28 +1,47 @@
 import {simulateBlur, simulateErase, simulatePaste, sleep} from "./simulate";
+import {GUIStyles, GUITemplate} from "./gui-template";
+import {Component} from "./component";
 
 /**
  * Plugin's HTML template
  */
-export class GUI {
+export class GUI extends Component {
 
   private isVisible: boolean = true;
 
-  private readonly $container: HTMLDivElement;
-  private readonly $gamepad: HTMLParagraphElement;
-  private readonly $chat: HTMLParagraphElement;
-  private readonly $lastCommand: HTMLParagraphElement;
-  private readonly $lastInput: HTMLParagraphElement;
+  private get $gamepad(): HTMLParagraphElement {
+    return this.$root.querySelector('[feedback] .gamepad')!;
+  }
+
+  private get $chat(): HTMLParagraphElement {
+    return this.$root.querySelector('[feedback] .chat')!;
+  }
+
+  private get $lastCommand(): HTMLParagraphElement {
+    return this.$root.querySelector('[feedback] .last-command')!;
+  }
+
+  private get $lastInput(): HTMLParagraphElement {
+    return this.$root.querySelector('[feedback] .last-input')!;
+  }
+
+  private get $settings(): HTMLDivElement {
+    return this.$root.querySelector('[settings]')!;
+  }
+
+  private get $btnToggleSettings(): HTMLDivElement {
+    return this.$root.querySelector('.expand')!;
+  }
+
+  get $btnCloseChatPopup(): HTMLButtonElement | null {
+    return document.querySelector('.chat-input-tray__open button[title="Close"]');
+  }
 
   private readonly $chatInput: HTMLDivElement | null = document.querySelector('.chat-wysiwyg-input__editor');
   private readonly $chatSend: HTMLButtonElement | null = document.querySelector('button[data-a-target="chat-send-button"]');
 
   constructor() {
-    this.$container = this.buildContainer();
-    this.$gamepad = this.buildParagraph('🔴 Manette en attente de connexion');
-    this.$chat = this.buildParagraph('🔴 Chat en attente de détection');
-    this.$lastInput = this.buildParagraph('🎮 Dernière entrée : ', [{'color': '#ffffff7f'}], this.buildSpan('N/A'));
-    this.$lastCommand = this.buildParagraph('💬 Dernière commande : ', [{'color': '#ffffff7f'}], this.buildSpan('N/A'));
-    this.build();
+    super(GUIStyles, GUITemplate);
     if (this.isChatAcquired) {
       this.setChatAcquired();
     }
@@ -39,21 +58,19 @@ export class GUI {
     return document.querySelector('.chat-input-tray__open') !== null;
   }
 
-  /**
-   * Get button to close chat error popup.
-   */
-  get $closeChatErrorPopup(): HTMLButtonElement | null {
-    return document.querySelector('.chat-input-tray__open button[title="Close"]');
-  }
-
   setGamepad(isConnected: boolean): void {
     this.$gamepad.textContent = isConnected ? '🟢 Manette connectée' : '🔴 Manette en attente de connexion';
-    this.$lastInput.style.color = isConnected ? '' : '#ffffff7f';
+    if (isConnected) {
+      this.$lastInput.classList.remove('disabled');
+    } else {
+      this.$lastInput.classList.add('disabled');
+    }
   }
 
   setChatAcquired(): void {
     this.$chat.textContent = '🟢 Accès au chat obtenu';
     this.$lastCommand.style.color = '';
+    this.$lastCommand.classList.remove('disabled');
   }
 
   updateLastInput(input: string): void {
@@ -92,7 +109,7 @@ export class GUI {
 
   toggleVisibility(): void {
     this.isVisible = !this.isVisible;
-    this.$container.style.display = (this.isVisible) ? '' : 'none';
+    this.$root.style.display = (this.isVisible) ? '' : 'none';
   }
 
   private onKeyUp(event: KeyboardEvent): void {
@@ -102,106 +119,27 @@ export class GUI {
     this.toggleVisibility();
   }
 
-  private build(): void {
-    this.$container.appendChild(this.buildTitle());
-    this.$container.appendChild(this.buildAuthor());
-    this.$container.appendChild(this.$gamepad);
-    this.$container.appendChild(this.$chat);
-    this.$container.appendChild(this.$lastInput);
-    this.$container.appendChild(this.$lastCommand);
-    this.$container.appendChild(this.buildVisibilityTooltip());
-    document.body.appendChild(this.$container);
+  private onToggleSettings(): void {
+    let isVisible: boolean = this.$settings.style.display !== 'none';
+
+    isVisible = !isVisible;
+    this.$settings.style.display = (isVisible) ? '' : 'none';
+    if (isVisible) {
+      this.$btnToggleSettings.setAttribute('expanded', '');
+    } else {
+      this.$btnToggleSettings.removeAttribute('expanded');
+    }
+  }
+
+  protected build(): void {
+    super.build();
+    document.head.appendChild(this.$styles);
+    document.body.appendChild(this.$root);
+
+    this.$settings.style.display = 'none';
+
     document.addEventListener('keyup', this.onKeyUp.bind(this));
-  }
-
-  private buildContainer(): HTMLDivElement {
-    const $container: HTMLDivElement = document.createElement('div');
-
-    $container.style.zIndex = '9999';
-    $container.style.position = 'absolute';
-    $container.style.top = '0';
-    $container.style.display = 'flex';
-    $container.style.flexFlow = 'column';
-    $container.style.width = '302px';
-    $container.style.margin = '8px';
-    $container.style.padding = '8px';
-    $container.style.color = 'white';
-    $container.style.backgroundColor = '#000610';
-    $container.style.border = '2px solid #ffb600';
-    $container.style.borderRadius = '8px';
-    return $container;
-  }
-
-  private buildTitle(): HTMLHeadElement {
-    const $title: HTMLHeadElement = document.createElement('h3');
-
-    $title.style.margin = '0';
-    $title.style.color = '#ffb600';
-    $title.style.textAlign = 'center';
-    $title.textContent = 'Twitch · BG3 · Gamepad';
-    return $title;
-  }
-
-  private buildAuthor(): HTMLHeadElement {
-    const $author: HTMLHeadElement = document.createElement('h5');
-
-    $author.style.margin = '0';
-    $author.style.textAlign = 'center';
-    $author.textContent = `by Rayshader · v1.1.0`;
-    return $author;
-  }
-
-  private buildVisibilityTooltip(): HTMLSpanElement {
-    const $p: HTMLParagraphElement = document.createElement('p');
-
-    $p.style.margin = '8px';
-    $p.append(this.buildButton('²'));
-    $p.append(' ou ');
-    $p.append(this.buildButton('START', [{marginRight: '4px'}]));
-    $p.append('afficher / cacher le plugin');
-    return $p;
-  }
-
-  private buildButton(button: string, styles: any[] = []): HTMLSpanElement {
-    return this.buildSpan(button, [
-      ...styles,
-      {padding: '0 8px'},
-      {border: '1px solid #fff'},
-      {borderBottomWidth: '3px'},
-      {borderRadius: '6px'},
-      {backgroundColor: '#ffffff36'},
-    ]);
-  }
-
-  private buildSpan(content?: string, styles: any[] = []): HTMLSpanElement {
-    const $span: HTMLSpanElement = document.createElement('span');
-
-    if (content) {
-      $span.textContent = content;
-    }
-    this.addStyles($span, styles);
-    return $span;
-  }
-
-  private buildParagraph(content: string, styles: any[] = [], child?: HTMLElement): HTMLParagraphElement {
-    const $p: HTMLParagraphElement = document.createElement('p');
-
-    $p.style.margin = '8px';
-    this.addStyles($p, styles);
-    $p.textContent = content;
-    if (child) {
-      $p.appendChild(child);
-    }
-    return $p;
-  }
-
-  private addStyles($element: HTMLElement, styles: any[]): void {
-    for (const style of styles) {
-      const key: string = Object.keys(style)[0];
-
-      // @ts-ignore
-      $element.style[key] = style[key];
-    }
+    this.$btnToggleSettings.addEventListener('click', this.onToggleSettings.bind(this));
   }
 
 }
