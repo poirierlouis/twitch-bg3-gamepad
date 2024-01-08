@@ -5,11 +5,14 @@
   "main": "run.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc-bundle tsconfig.json && uglifyjs ./main.js -o ./plugin.js"
+    "watch": "nodemon --exec \"npm run build\" --watch src --watch plugin.html",
+    "build": "node minify.mjs && tsc-bundle tsconfig.json && uglifyjs ./main.js -o ./plugin.js"
   },
   "author": "Louis Poirier",
   "license": "MIT",
   "devDependencies": {
+    "minify": "^11.0.1",
+    "nodemon": "^3.0.2",
     "typescript": "^5.3.3",
     "typescript-bundle": "^1.0.18",
     "uglify-js": "^3.17.4"
