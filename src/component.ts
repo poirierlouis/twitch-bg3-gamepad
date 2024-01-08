@@ -5,7 +5,6 @@ export abstract class Component {
 
   protected constructor(private readonly styles: string,
                         private readonly template: string) {
-    this.build();
   }
 
   protected build(): void {

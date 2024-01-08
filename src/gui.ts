@@ -42,6 +42,7 @@ export class GUI extends Component {
 
   constructor() {
     super(GUIStyles, GUITemplate);
+    this.build();
     if (this.isChatAcquired) {
       this.setChatAcquired();
     }
