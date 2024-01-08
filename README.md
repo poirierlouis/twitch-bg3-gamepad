@@ -1,5 +1,5 @@
 # Twitch BG3 Gamepad
-![version 1.1.0](https://img.shields.io/badge/version-1.1.0-success) ![browsers Chrome | Firefox](https://img.shields.io/badge/browsers-Chrome_|_Firefox-blue) ![License MIT](https://img.shields.io/github/license/poirierlouis/twitch-bg3-gamepad)
+![version 1.2.0](https://img.shields.io/badge/version-1.2.0-success) ![browsers Chrome | Firefox](https://img.shields.io/badge/browsers-Chrome_|_Firefox-blue) ![License MIT](https://img.shields.io/github/license/poirierlouis/twitch-bg3-gamepad)
 
 Plugin sous la forme d'un script JavaScript à installer sur le navigateur.
 Permet d'utiliser une manette de console pour envoyer les commandes au chat 
