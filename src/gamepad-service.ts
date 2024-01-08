@@ -185,7 +185,7 @@ export class GamepadService {
       const duration: number = event.duration / 1000;
       const side: string = event.side === 'left' ? 'L' : 'R';
 
-      this.gui.updateLastInput(event.button);
+      this.gui.updateLastInput(`${side} (${event.button})`);
       console.log(`<gamepad (event) side="${event.side}" button="M${side}${event.button}" duration="${duration.toFixed(2)} s" />`);
       this.listenersJoystick.forEach((listener) => listener(event!));
     }
