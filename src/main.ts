@@ -1,3 +1,5 @@
-import {start} from "./listener";
+import {Plugin} from "./plugin";
 
-start();
+const plugin: Plugin = new Plugin();
+
+plugin.start();

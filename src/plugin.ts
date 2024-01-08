@@ -1,9 +1,6 @@
-import {GamepadInput} from "./gamepad-input";
-import {ButtonReleasedEvent, GamepadEvents, JoystickMovedEvent} from "./gamepad-event";
+import {ButtonReleasedEvent, JoystickMovedEvent} from "./gamepad-event";
 import {GUI} from "./gui";
-
-type ButtonReleasedEventCallback = (event: ButtonReleasedEvent) => void;
-type JoystickMovedEventCallback = (event: JoystickMovedEvent) => void;
+import {GamepadService} from "./gamepad-service";
 
 enum RandomizeCase {
   upper,
@@ -20,16 +17,14 @@ export class Plugin {
   private static longPressDuration: number = 400;
   private static longMovementDuration: number = 400;
 
-  gamepad?: Gamepad;
-  pollID?: number;
+  // Map digit characters using AZERTY keyboard.
+  private static readonly digits: string = `&é"'(-è_çà)=`;
 
-  readonly gui: GUI = new GUI();
+  private readonly gui: GUI = new GUI();
+  private readonly gamepadService: GamepadService = new GamepadService(this.gui);
 
   private dropFirstCommand: boolean = true;
   private randomize: RandomizeCase = RandomizeCase.upper;
-  private readonly events: GamepadEvents = new GamepadEvents();
-  private readonly listeners: ButtonReleasedEventCallback[] = [];
-  private readonly listenersJoystick: JoystickMovedEventCallback[] = [];
 
   static getLongPressDuration(): number {
     return this.longPressDuration;
@@ -39,84 +34,29 @@ export class Plugin {
     return this.longMovementDuration;
   }
 
-  static warn(message: string): void {
-    if (!Plugin.logging) {
-      return;
-    }
-    console.warn(message);
-  }
-
-  static log(message: string): void {
-    if (!Plugin.logging) {
-      return;
-    }
-    console.log(message);
-  }
-
   constructor() {
-    this.onReleased(this.onButtonReleased.bind(this));
-  }
-
-  /**
-   * Push current input and consume it to build events.
-   * Trigger listeners on released events.
-   */
-  pushInput(input: GamepadInput): void {
-    this.events.consumeInput(input);
-    this.dispatchButtons();
-    this.dispatchMoves();
-  }
-
-  /**
-   * Add listener on button released events.
-   * @param fn to execute on event.
-   */
-  onReleased(fn: ButtonReleasedEventCallback): void {
-    this.listeners.push(fn);
-  }
-
-  /**
-   * Add listener on joystick moved events.
-   * @param fn to execute on event.
-   */
-  onMoved(fn: JoystickMovedEventCallback): void {
-    this.listenersJoystick.push(fn);
-  }
-
-  /**
-   * Remove listener off button released events.
-   * @param fn previously registered.
-   */
-  offReleased(fn: ButtonReleasedEventCallback): void {
-    const listener: number = this.listeners.indexOf(fn);
-
-    if (listener === -1) {
-      return;
+    if (!Plugin.logging) {
+      console.log = () => {};
+      console.warn = () => {};
     }
-    this.listeners.splice(listener, 1);
+    this.gamepadService.addConnectionListener(this.onConnected.bind(this));
+    this.gamepadService.addDisconnectionListener(this.onDisconnected.bind(this));
+    document.addEventListener('keyup', this.onKeyUp.bind(this));
   }
 
-  /**
-   * Remove listener off joystick moved events.
-   * @param fn previously registered.
-   */
-  offMoved(fn: JoystickMovedEventCallback): void {
-    const listener: number = this.listenersJoystick.indexOf(fn);
-
-    if (listener === -1) {
-      return;
-    }
-    this.listeners.splice(listener, 1);
+  start(): void {
+    this.gamepadService.start();
+    console.log('<plugin (start) />');
   }
 
   /**
    * Send message using UI.
    * @param message to send on chat.
    */
-  async send(message: string): Promise<void> {
+  private async send(message: string): Promise<void> {
     if (this.dropFirstCommand) {
       this.dropFirstCommand = false;
-      Plugin.log('<plugin (drop-command) />');
+      console.log('<plugin (drop-command) />');
       return;
     }
     if (!this.gui.isChatAcquired) {
@@ -130,7 +70,7 @@ export class Plugin {
     if (this.randomize === RandomizeCase.size) {
       this.randomize = 0;
     }
-    Plugin.log(`<send command="${message}" />`);
+    console.log(`<send command="${message}" />`);
   }
 
   /**
@@ -150,40 +90,47 @@ export class Plugin {
     $close.click();
   }
 
-  private dispatchButtons(): void {
-    let event: ButtonReleasedEvent | undefined;
-
-    while ((event = this.events.nextButton()) !== undefined) {
-      const duration: number = event.duration / 1000;
-
-      this.gui.updateLastInput(event.button);
-      Plugin.log(`<event (released) button="${event.button}" duration="${duration.toFixed(2)} s" />`);
-      for (const listener of this.listeners) {
-        listener(event);
-      }
-    }
+  private onConnected(): void {
+    this.gui.setGamepad(true);
+    this.gamepadService.addButtonListener(this.onButtonReleased.bind(this));
+    this.gamepadService.addJoystickListener(this.onJoystickMoved.bind(this));
   }
 
-  private dispatchMoves(): void {
-    let event: JoystickMovedEvent | undefined;
-
-    while ((event = this.events.nextJoystick()) !== undefined) {
-      const duration: number = event.duration / 1000;
-      const side: string = event.side === 'left' ? 'L' : 'R';
-
-      this.gui.updateLastInput(event.button);
-      Plugin.log(`<event (moved) side="${event.side}" button="M${side}${event.button}" duration="${duration.toFixed(2)} s" />`);
-      for (const listener of this.listenersJoystick) {
-        listener(event);
-      }
-    }
+  private onDisconnected(): void {
+    this.gui.setGamepad(false);
+    this.gui.updateLastInput('N/A');
   }
 
   private onButtonReleased(event: ButtonReleasedEvent): void {
-    if (event.button !== 'START') {
+    if (event.button === 'START') {
+      this.gui.toggleVisibility();
       return;
     }
-    this.gui.toggleVisibility();
+    let command: string = event.button;
+
+    if (event.duration >= Plugin.getLongPressDuration()) {
+      command = `+${command}`;
+    }
+    this.send(command);
+  }
+
+  private onJoystickMoved(event: JoystickMovedEvent): void {
+    let command: string = `M${event.side === 'left' ? 'L' : 'R'}${event.button}`;
+
+    if (event.duration >= Plugin.getLongMovementDuration()) {
+      command = `+${command}`;
+    }
+    this.send(command);
+  }
+
+  private onKeyUp(event: KeyboardEvent): void {
+    if (!Plugin.digits.includes(event.key)) {
+      return;
+    }
+    const digit: number = Plugin.digits.indexOf(event.key) + 1;
+
+    this.gui.updateLastInput(digit.toString());
+    this.send(digit.toString());
   }
 
   private randomizeCommand(message: string): string {
@@ -215,5 +162,3 @@ export class Plugin {
   }
 
 }
-
-export const plugin: Plugin = new Plugin();
