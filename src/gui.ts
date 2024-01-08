@@ -1,6 +1,7 @@
 import {simulateBlur, simulateErase, simulatePaste, sleep} from "./simulate";
 import {GUIStyles, GUITemplate} from "./gui-template";
 import {Component} from "./component";
+import {SettingsService} from "./settings-service";
 
 /**
  * Plugin's HTML template
@@ -33,12 +34,22 @@ export class GUI extends Component {
     return this.$root.querySelector('.expand')!;
   }
 
+  private get $longPressInput(): HTMLInputElement {
+    return this.$root.querySelector('#long-press')!;
+  }
+
+  private get $longMoveInput(): HTMLInputElement {
+    return this.$root.querySelector('#long-move')!;
+  }
+
   get $btnCloseChatPopup(): HTMLButtonElement | null {
     return document.querySelector('.chat-input-tray__open button[title="Close"]');
   }
 
   private readonly $chatInput: HTMLDivElement | null = document.querySelector('.chat-wysiwyg-input__editor');
   private readonly $chatSend: HTMLButtonElement | null = document.querySelector('button[data-a-target="chat-send-button"]');
+
+  private readonly settingsService: SettingsService = SettingsService.instance;
 
   constructor() {
     super(GUIStyles, GUITemplate);
@@ -132,15 +143,45 @@ export class GUI extends Component {
     }
   }
 
+  private onLongPressChanged(): void {
+    const value: string = this.$longPressInput.value;
+    const duration: number = parseInt(value);
+
+    if (duration < 50) {
+      this.$longPressInput.value = '50';
+    } else if (duration > 1000) {
+      this.$longPressInput.value = '1000';
+    }
+    this.settingsService.settings.longPressDuration = duration;
+    this.settingsService.update();
+  }
+
+  private onLongMoveChanged(): void {
+    const value: string = this.$longMoveInput.value;
+    const duration: number = parseInt(value);
+
+    if (duration < 50) {
+      this.$longMoveInput.value = '50';
+    } else if (duration > 1000) {
+      this.$longMoveInput.value = '1000';
+    }
+    this.settingsService.settings.longMoveDuration = duration;
+    this.settingsService.update();
+  }
+
   protected build(): void {
     super.build();
     document.head.appendChild(this.$styles);
     document.body.appendChild(this.$root);
 
     this.$settings.style.display = 'none';
+    this.$longPressInput.value = `${this.settingsService.longPressDuration}`;
+    this.$longMoveInput.value = `${this.settingsService.longMoveDuration}`;
 
     document.addEventListener('keyup', this.onKeyUp.bind(this));
     this.$btnToggleSettings.addEventListener('click', this.onToggleSettings.bind(this));
+    this.$longPressInput.addEventListener('focusout', this.onLongPressChanged.bind(this));
+    this.$longMoveInput.addEventListener('focusout', this.onLongMoveChanged.bind(this));
   }
 
 }

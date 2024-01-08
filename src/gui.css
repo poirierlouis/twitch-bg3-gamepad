@@ -90,6 +90,8 @@
 }
 
 #tbg3gp input {
+    appearance: textfield;
+
     width: 80px;
     padding: 4px;
 
