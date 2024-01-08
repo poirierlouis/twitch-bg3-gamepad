@@ -15,9 +15,6 @@ export class Plugin {
   // false to disable logging when building in release mode.
   private static readonly logging: boolean = false;
 
-  private static longPressDuration: number = 400;
-  private static longMovementDuration: number = 400;
-
   // Map digit characters using AZERTY keyboard.
   private static readonly digits: string = `&é"'(-è_çà)=`;
 
@@ -27,14 +24,6 @@ export class Plugin {
 
   private dropFirstCommand: boolean = true;
   private randomize: RandomizeCase = RandomizeCase.upper;
-
-  static getLongPressDuration(): number {
-    return this.longPressDuration;
-  }
-
-  static getLongMovementDuration(): number {
-    return this.longMovementDuration;
-  }
 
   constructor() {
     if (!Plugin.logging) {
