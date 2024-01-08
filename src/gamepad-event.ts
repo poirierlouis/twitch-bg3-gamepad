@@ -1,5 +1,6 @@
 import {GAMEPAD_BUTTONS, GamepadInput, getJoystickButton} from "./gamepad-input";
 import {Vector2} from "./vector2";
+import {JoystickSettingsDto, SettingsService} from "./settings-service";
 
 export interface ButtonReleasedEvent {
   readonly button: string;
@@ -87,10 +88,11 @@ export class GamepadEvents {
   private LJ: JoystickEvents = new JoystickEvents();
   private RJ: JoystickEvents = new JoystickEvents();
 
+  private lastInput?: GamepadInput;
+
+  private readonly settingsService: SettingsService = SettingsService.instance;
   private readonly queueButtons: ButtonReleasedEvent[] = [];
   private readonly queueJoysticks: JoystickMovedEvent[] = [];
-
-  private lastInput?: GamepadInput;
 
   consumeInput(input: GamepadInput): void {
     const delta: number = (this.lastInput) ? input.timestamp - this.lastInput.timestamp : 1 / 60;
@@ -176,7 +178,9 @@ export class GamepadEvents {
    * @private
    */
   private isInDeadZone(event: JoystickEvent): boolean {
-    return event.length < 0.2;
+    const settings: JoystickSettingsDto = this.settingsService.getJoystick(event.side);
+
+    return event.length < settings.deadThreshold;
   }
 
   /**
@@ -184,7 +188,9 @@ export class GamepadEvents {
    * @private
    */
   private isActive(event: JoystickEvent): boolean {
-    return event.length >= 0.8;
+    const settings: JoystickSettingsDto = this.settingsService.getJoystick(event.side);
+
+    return event.length >= settings.activeThreshold;
   }
 
   /**

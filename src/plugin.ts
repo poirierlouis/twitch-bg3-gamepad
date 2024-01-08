@@ -1,6 +1,7 @@
 import {ButtonReleasedEvent, JoystickMovedEvent} from "./gamepad-event";
 import {GUI} from "./gui";
 import {GamepadService} from "./gamepad-service";
+import {SettingsService} from "./settings-service";
 
 enum RandomizeCase {
   upper,
@@ -22,6 +23,7 @@ export class Plugin {
 
   private readonly gui: GUI = new GUI();
   private readonly gamepadService: GamepadService = new GamepadService(this.gui);
+  private readonly settingsService: SettingsService = SettingsService.instance;
 
   private dropFirstCommand: boolean = true;
   private randomize: RandomizeCase = RandomizeCase.upper;
@@ -108,7 +110,7 @@ export class Plugin {
     }
     let command: string = event.button;
 
-    if (event.duration >= Plugin.getLongPressDuration()) {
+    if (event.duration >= this.settingsService.longPressDuration) {
       command = `+${command}`;
     }
     this.send(command);
@@ -117,7 +119,7 @@ export class Plugin {
   private onJoystickMoved(event: JoystickMovedEvent): void {
     let command: string = `M${event.side === 'left' ? 'L' : 'R'}${event.button}`;
 
-    if (event.duration >= Plugin.getLongMovementDuration()) {
+    if (event.duration >= this.settingsService.longMoveDuration) {
       command = `+${command}`;
     }
     this.send(command);
