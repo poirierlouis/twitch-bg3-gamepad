@@ -5,12 +5,13 @@ import {minify} from 'minify';
     const components = ['gui'];
 
     for (const component of components) {
+        const name = component.toUpperCase();
         const htmlFile = await minifyHTML(`./src/${component}.html`);
         const cssFile = await minifyCSS(`./src/${component}.css`);
 
         fs.writeFileSync(`./src/${component}-template.ts`, `// Generated with 'minify'.
-export const GUIStyles: string = \`${cssFile}\`;
-export const GUITemplate: string = \`${htmlFile}\`;
+export const ${name}Styles: string = \`${cssFile}\`;
+export const ${name}Template: string = \`${htmlFile}\`;
 `);
     }
 })();
