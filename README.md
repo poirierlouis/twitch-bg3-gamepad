@@ -35,6 +35,9 @@ Pour supprimer le plugin, il vous suffit d'actualiser la page (`F5`) ou de
 quitter l'onglet. Vous devrez reproduire la procédure d'installation pour 
 utiliser le plugin à nouveau.
 
+Vous pouvez passer en *mode dev* pour tester la manette sans envoyer de 
+commande au chat. Activer / désactiver ce mode via le bouton `(--o)`.
+
 Le plugin affiche quelques informations en haut à gauche du navigateur. Vous 
 pouvez afficher/cacher l'interface en appuyant sur la touche `²` du clavier ou
 la touche `START` de la manette.

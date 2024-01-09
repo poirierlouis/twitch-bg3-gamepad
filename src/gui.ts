@@ -4,6 +4,8 @@ import {Component} from "./component";
 import {SettingsService} from "./settings-service";
 import {JoystickComponent} from "./joystick";
 
+export type TestModeCallback = (isOn: boolean) => void;
+
 /**
  * Plugin's HTML template
  */
@@ -25,6 +27,10 @@ export class GUI extends Component {
 
   private get $lastInput(): HTMLParagraphElement {
     return this.$root.querySelector('[feedback] .last-input')!;
+  }
+
+  private get $switchTestMode(): HTMLSpanElement {
+    return this.$root.querySelector('.switch')!;
   }
 
   private get $settings(): HTMLDivElement {
@@ -54,6 +60,8 @@ export class GUI extends Component {
 
   private LJ?: JoystickComponent;
   private RJ?: JoystickComponent;
+
+  private listenerTestMode?: TestModeCallback;
 
   constructor() {
     super(GUIStyles, GUITemplate);
@@ -85,8 +93,7 @@ export class GUI extends Component {
 
   setChatAcquired(): void {
     this.$chat.textContent = '🟢 Accès au chat obtenu';
-    this.$lastCommand.style.color = '';
-    this.$lastCommand.classList.remove('disabled');
+    this.setLastCommand(true);
   }
 
   updateLastInput(input: string): void {
@@ -96,9 +103,17 @@ export class GUI extends Component {
   }
 
   updateLastCommand(command: string): void {
-    const $span: HTMLSpanElement = this.$lastCommand.querySelector('span')!;
+    const $span: HTMLSpanElement = this.$lastCommand.querySelector('span.value')!;
 
     $span.textContent = command;
+  }
+
+  setLastCommand(isEnabled: boolean): void {
+    if (isEnabled) {
+      this.$lastCommand.classList.remove('disabled');
+    } else {
+      this.$lastCommand.classList.add('disabled');
+    }
   }
 
   async send(command: string): Promise<void> {
@@ -128,11 +143,28 @@ export class GUI extends Component {
     this.$root.style.display = (this.isVisible) ? '' : 'none';
   }
 
+  addTestModeListener(fn: TestModeCallback): void {
+    this.listenerTestMode = fn;
+  }
+
   private onKeyUp(event: KeyboardEvent): void {
     if (event.key !== '²') {
       return;
     }
     this.toggleVisibility();
+  }
+
+  private onTestModeSwitched(): void {
+    const isOn: boolean = this.$switchTestMode.hasAttribute('checked');
+
+    if (isOn) {
+      this.$switchTestMode.removeAttribute('checked');
+      this.setLastCommand(false);
+    } else {
+      this.$switchTestMode.setAttribute('checked', '');
+      this.setLastCommand(true);
+    }
+    this.listenerTestMode?.call(this, !isOn);
   }
 
   private onToggleSettings(): void {
@@ -191,6 +223,7 @@ export class GUI extends Component {
 
     document.addEventListener('keyup', this.onKeyUp.bind(this));
 
+    this.$switchTestMode.addEventListener('click', this.onTestModeSwitched.bind(this));
     this.$btnToggleSettings.addEventListener('click', this.onToggleSettings.bind(this));
 
     this.$longPressInput.addEventListener('focusout', this.onLongPressChanged.bind(this));

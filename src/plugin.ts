@@ -22,6 +22,7 @@ export class Plugin {
   private readonly gamepadService: GamepadService = new GamepadService(this.gui);
   private readonly settingsService: SettingsService = SettingsService.instance;
 
+  private isTestMode: boolean = false;
   private dropFirstCommand: boolean = true;
   private randomize: RandomizeCase = RandomizeCase.upper;
 
@@ -32,6 +33,7 @@ export class Plugin {
     }
     this.gamepadService.addConnectionListener(this.onConnected.bind(this));
     this.gamepadService.addDisconnectionListener(this.onDisconnected.bind(this));
+    this.gui.addTestModeListener(this.onTestModeChanged.bind(this));
     document.addEventListener('keyup', this.onKeyUp.bind(this));
   }
 
@@ -51,6 +53,9 @@ export class Plugin {
       return;
     }
     if (!this.gui.isChatAcquired) {
+      return;
+    }
+    if (this.isTestMode) {
       return;
     }
     message = this.randomizeCommand(message);
@@ -90,6 +95,10 @@ export class Plugin {
   private onDisconnected(): void {
     this.gui.setGamepad(false);
     this.gui.updateLastInput('N/A');
+  }
+
+  private onTestModeChanged(isOn: boolean): void {
+    this.isTestMode = !isOn;
   }
 
   private onButtonReleased(event: ButtonReleasedEvent): void {
