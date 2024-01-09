@@ -2,7 +2,9 @@
   <h3>Twitch · BG3 · Gamepad</h3>
   <h5>by Rayshader · v1.2.0</h5>
 
-  <div class="panel" feedback>
+  <div class="divider"></div>
+
+  <div feedback>
     <p class="gamepad">🔴 Manette en attente de connexion</p>
     <p class="chat">🔴 Chat en attente de détection</p>
     <p class="last-input disabled">🎮 Dernière entrée : <span>N/A</span></p>
@@ -10,16 +12,18 @@
     <p class="hint"><span class="btn">²</span> ou <span class="btn">START</span> afficher / cacher le plugin</p>
   </div>
 
-  <div class="panel" settings>
+  <div settings>
+    <div class="divider"></div>
+
     <div class="form-field">
-      <label title="pour les boutons">Appui long min :</label>
+      <label for="long-press" title="pour les boutons">Appui long min :</label>
       <div class="ms">
         <input id="long-press" type="number" min="50" max="1000" step="10" value="400" />
       </div>
     </div>
 
     <div class="form-field">
-      <label title="pour les joysticks">Mouvement long min :</label>
+      <label for="long-move" title="pour les joysticks">Mouvement long min :</label>
       <div class="ms">
         <input id="long-move" type="number" min="50" max="1000" step="10" value="400" />
       </div>

@@ -70,16 +70,10 @@
     fill: #ffb600;
 }
 
-#tbg3gp .panel {
-    margin-top: 6px;
-    padding-top: 12px;
+#tbg3gp .divider {
+    margin: 12px 0;
 
     border-top: 1px solid rgba(255, 182, 0, 0.5);
-}
-
-#tbg3gp .panel[feedback] {
-    margin-top: 12px;
-    padding-top: 0;
 }
 
 #tbg3gp .form-field {
@@ -96,6 +90,7 @@
     padding: 4px;
 
     color: white;
+    text-align: right;
 
     border: 1px solid #ffb600;
     background-color: transparent;
