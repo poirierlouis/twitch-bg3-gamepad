@@ -10,6 +10,7 @@ export abstract class Component {
   protected build(): void {
     this.$styles = document.createElement('style');
     this.$styles.innerText = this.styles;
+    document.head.appendChild(this.$styles);
     const $template: HTMLTemplateElement = document.createElement('template');
 
     $template.innerHTML = this.template;

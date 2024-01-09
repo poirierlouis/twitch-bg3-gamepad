@@ -175,7 +175,6 @@ export class GUI extends Component {
 
   protected build(): void {
     super.build();
-    document.head.appendChild(this.$styles);
     document.body.appendChild(this.$root);
 
     this.$settings.style.display = 'none';
