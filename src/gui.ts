@@ -145,11 +145,13 @@ export class GUI extends Component {
 
   private onLongPressChanged(): void {
     const value: string = this.$longPressInput.value;
-    const duration: number = parseInt(value);
+    let duration: number = parseInt(value);
 
     if (duration < 50) {
+      duration = 50;
       this.$longPressInput.value = '50';
     } else if (duration > 1000) {
+      duration = 1000;
       this.$longPressInput.value = '1000';
     }
     this.settingsService.settings.longPressDuration = duration;
@@ -158,11 +160,13 @@ export class GUI extends Component {
 
   private onLongMoveChanged(): void {
     const value: string = this.$longMoveInput.value;
-    const duration: number = parseInt(value);
+    let duration: number = parseInt(value);
 
     if (duration < 50) {
+      duration = 50;
       this.$longMoveInput.value = '50';
     } else if (duration > 1000) {
+      duration = 1000;
       this.$longMoveInput.value = '1000';
     }
     this.settingsService.settings.longMoveDuration = duration;
