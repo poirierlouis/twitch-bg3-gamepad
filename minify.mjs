@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import {minify} from 'minify';
 
 (async () => {
-    const components = ['gui'];
+    const components = ['gui', 'joystick'];
 
     for (const component of components) {
         const name = component.toUpperCase();

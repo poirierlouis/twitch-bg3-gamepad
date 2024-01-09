@@ -100,3 +100,17 @@
     content: 'ms';
     padding-left: 6px;
 }
+
+#tbg3gp .joysticks {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 8px;
+    gap: 24px;
+}
+
+#tbg3gp .joysticks .row {
+    display: inline-flex;
+    align-items: center;
+    height: 26px;
+    margin-bottom: 8px;
+}

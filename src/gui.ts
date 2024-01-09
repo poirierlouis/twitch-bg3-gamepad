@@ -2,6 +2,7 @@ import {simulateBlur, simulateErase, simulatePaste, sleep} from "./simulate";
 import {GUIStyles, GUITemplate} from "./gui-template";
 import {Component} from "./component";
 import {SettingsService} from "./settings-service";
+import {JoystickComponent} from "./joystick";
 
 /**
  * Plugin's HTML template
@@ -50,6 +51,9 @@ export class GUI extends Component {
   private readonly $chatSend: HTMLButtonElement | null = document.querySelector('button[data-a-target="chat-send-button"]');
 
   private readonly settingsService: SettingsService = SettingsService.instance;
+
+  private LJ?: JoystickComponent;
+  private RJ?: JoystickComponent;
 
   constructor() {
     super(GUIStyles, GUITemplate);
@@ -180,9 +184,15 @@ export class GUI extends Component {
     this.$settings.style.display = 'none';
     this.$longPressInput.value = `${this.settingsService.longPressDuration}`;
     this.$longMoveInput.value = `${this.settingsService.longMoveDuration}`;
+    const $joysticks: HTMLDivElement = this.$root.querySelector('.joysticks')!;
+
+    this.LJ = new JoystickComponent('left', $joysticks);
+    this.RJ = new JoystickComponent('right', $joysticks);
 
     document.addEventListener('keyup', this.onKeyUp.bind(this));
+
     this.$btnToggleSettings.addEventListener('click', this.onToggleSettings.bind(this));
+
     this.$longPressInput.addEventListener('focusout', this.onLongPressChanged.bind(this));
     this.$longMoveInput.addEventListener('focusout', this.onLongMoveChanged.bind(this));
   }

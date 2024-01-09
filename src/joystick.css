@@ -1,0 +1,11 @@
+#tbg3gp .joystick {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+#tbg3gp .joystick input {
+    width: 54px;
+
+    text-align: center;
+}

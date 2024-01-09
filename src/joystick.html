@@ -1,0 +1,29 @@
+<div class="joystick">
+    <div class="row"></div>
+
+    <div class="form-field">
+        <input class="active" type="number" min="0.02" max="0.99" step="0.01" value="0.8" />
+    </div>
+
+    <div class="form-field">
+        <input class="dead" type="number" min="0.01" max="0.98" step="0.01" value="0.2" />
+    </div>
+
+    <svg viewBox="0 0 64 64" width="64" height="64">
+        <g id="background">
+            <circle cx="32" cy="32" r="32" style="fill:#000610; stroke-width:0"/>
+        </g>
+
+        <g id="active" style="opacity:.66;">
+            <circle cx="32" cy="32" r="32" style="fill:#007f00; stroke-width:0"/>
+        </g>
+
+        <g id="area">
+            <circle cx="32" cy="32" r="25" style="fill:#000610; stroke-width:0"/>
+        </g>
+
+        <g id="dead" style="opacity:.66;">
+            <circle cx="32" cy="32" r="6" style="fill:#900; stroke-width:0"/>
+        </g>
+    </svg>
+</div>
