@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "node minify.mjs",
     "watch": "nodemon --exec \"npm run build\" --ext ts,css,html --watch src --watch plugin.html --ignore src/*-template.ts",
-    "build": "node minify.mjs && tsc-bundle tsconfig.json && uglifyjs ./main.js -o ./plugin.js"
+    "build": "node minify.mjs && tsc-bundle tsconfig.json && uglifyjs ./plugin.js -o ./plugin.js"
   },
   "author": "Louis Poirier",
   "license": "MIT",
