@@ -5,6 +5,8 @@ Plugin sous la forme d'un script JavaScript à installer sur le navigateur.
 Permet d'utiliser une manette de console pour envoyer les commandes au chat 
 simplement et rapidement.
 
+![Animated demo of this plugin](demo.gif)
+
 ## Installation
 
 1. Ouvrir le fichier [plugin.js](https://github.com/poirierlouis/twitch-bg3-gamepad/releases/latest).
