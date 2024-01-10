@@ -4,7 +4,7 @@
     top: 0;
     display: flex;
     flex-flow: column;
-    width: 302px;
+    width: 346px;
     margin: 8px;
     padding: 8px;
 
@@ -101,6 +101,10 @@
     margin-bottom: 8px;
 }
 
+#tbg3gp .form-field label {
+    margin-left: 10px;
+}
+
 #tbg3gp input {
     appearance: textfield;
 
@@ -165,6 +169,11 @@
     justify-content: space-around;
     margin-bottom: 8px;
     gap: 24px;
+}
+
+#tbg3gp .joysticks div:first-child:not(.row) {
+    display: flex;
+    flex-flow: column;
 }
 
 #tbg3gp .joysticks .row {

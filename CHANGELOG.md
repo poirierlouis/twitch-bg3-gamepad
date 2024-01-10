@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ------------------------
 
+## [1.5.1] - 2024-01-11
+### Fixed
+- alignment of panels and buttons in UI.
+
+------------------------
+
 ## [1.5.0] - 2024-01-11
 ### Added
 - telemetry feature to record, aggregate and list user commands.
@@ -76,7 +82,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - shortcut to show/hide GUI.
 
 <!-- Table of releases -->
-[Unreleased]: https://github.com/poirierlouis/twitch-bg3-gamepad/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/poirierlouis/twitch-bg3-gamepad/compare/v1.5.1...HEAD
+[1.5.1]: https://github.com/poirierlouis/twitch-bg3-gamepad/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/poirierlouis/twitch-bg3-gamepad/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/poirierlouis/twitch-bg3-gamepad/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/poirierlouis/twitch-bg3-gamepad/compare/v1.2.0...v1.3.0
