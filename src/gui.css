@@ -15,6 +15,13 @@
     border-radius: 8px;
 }
 
+#tbg3gp .icon {
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
 #tbg3gp h3 {
     margin: 0;
 

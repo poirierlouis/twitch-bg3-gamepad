@@ -3,6 +3,7 @@ import {GUIStyles, GUITemplate} from "./gui-template";
 import {Component} from "./component";
 import {SettingsService} from "./settings-service";
 import {JoystickComponent} from "./joystick";
+import {TelemetryComponent} from "./telemetry";
 
 export type TestModeCallback = (isOn: boolean) => void;
 
@@ -12,6 +13,10 @@ export type TestModeCallback = (isOn: boolean) => void;
 export class GUI extends Component {
 
   private isVisible: boolean = true;
+
+  private get $btnTelemetry(): HTMLSpanElement {
+    return this.$root.querySelector('.icon')!;
+  }
 
   private get $gamepad(): HTMLParagraphElement {
     return this.$root.querySelector('[feedback] .gamepad')!;
@@ -60,6 +65,7 @@ export class GUI extends Component {
 
   private LJ?: JoystickComponent;
   private RJ?: JoystickComponent;
+  private telemetry?: TelemetryComponent;
 
   private listenerTestMode?: TestModeCallback;
 
@@ -167,6 +173,10 @@ export class GUI extends Component {
     this.listenerTestMode?.call(this, !isOn);
   }
 
+  private onToggleTelemetry(): void {
+    this.telemetry!.toggleVisibility();
+  }
+
   private onToggleSettings(): void {
     let isVisible: boolean = this.$settings.style.display !== 'none';
 
@@ -220,9 +230,12 @@ export class GUI extends Component {
 
     this.LJ = new JoystickComponent('left', $joysticks);
     this.RJ = new JoystickComponent('right', $joysticks);
+    this.telemetry = new TelemetryComponent(this.$root);
+    this.telemetry.toggleVisibility();
 
     document.addEventListener('keyup', this.onKeyUp.bind(this));
 
+    this.$btnTelemetry.addEventListener('click', this.onToggleTelemetry.bind(this));
     this.$switchTestMode.addEventListener('click', this.onTestModeSwitched.bind(this));
     this.$btnToggleSettings.addEventListener('click', this.onToggleSettings.bind(this));
 

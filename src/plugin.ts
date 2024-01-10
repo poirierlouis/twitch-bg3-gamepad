@@ -2,6 +2,7 @@ import {ButtonReleasedEvent, JoystickMovedEvent} from "./gamepad-event";
 import {GUI} from "./gui";
 import {GamepadService} from "./gamepad-service";
 import {SettingsService} from "./settings-service";
+import {TelemetrySection, TelemetryService} from "./telemetry-service";
 
 enum RandomizeCase {
   upper,
@@ -21,6 +22,7 @@ export class Plugin {
   private readonly gui: GUI = new GUI();
   private readonly gamepadService: GamepadService = new GamepadService(this.gui);
   private readonly settingsService: SettingsService = SettingsService.instance;
+  private readonly telemetryService: TelemetryService = TelemetryService.instance;
 
   private isTestMode: boolean = false;
   private dropFirstCommand: boolean = true;
@@ -46,7 +48,7 @@ export class Plugin {
    * Send message using UI.
    * @param message to send on chat.
    */
-  private async send(message: string): Promise<void> {
+  private async send(message: string, section: TelemetrySection): Promise<void> {
     if (this.dropFirstCommand) {
       this.dropFirstCommand = false;
       console.log('<plugin (drop-command) />');
@@ -67,6 +69,7 @@ export class Plugin {
       this.randomize = 0;
     }
     console.log(`<send command="${message}" />`);
+    this.telemetryService.addCommand(message, section);
   }
 
   /**
@@ -99,6 +102,11 @@ export class Plugin {
 
   private onTestModeChanged(isOn: boolean): void {
     this.isTestMode = !isOn;
+    if (this.isTestMode) {
+      this.telemetryService.disable();
+    } else {
+      this.telemetryService.enable();
+    }
   }
 
   private onButtonReleased(event: ButtonReleasedEvent): void {
@@ -111,7 +119,7 @@ export class Plugin {
     if (event.duration >= this.settingsService.longPressDuration) {
       command = `+${command}`;
     }
-    this.send(command);
+    this.send(command, 'gamepad');
   }
 
   private onJoystickMoved(event: JoystickMovedEvent): void {
@@ -120,7 +128,7 @@ export class Plugin {
     if (event.duration >= this.settingsService.longMoveDuration) {
       command = `+${command}`;
     }
-    this.send(command);
+    this.send(command, 'joystick');
   }
 
   private onKeyUp(event: KeyboardEvent): void {
@@ -130,7 +138,7 @@ export class Plugin {
     const digit: number = Plugin.digits.indexOf(event.key) + 1;
 
     this.gui.updateLastInput(digit.toString());
-    this.send(digit.toString());
+    this.send(digit.toString(), 'keyboard');
   }
 
   private randomizeCommand(message: string): string {

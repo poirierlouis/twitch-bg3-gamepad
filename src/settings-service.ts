@@ -27,7 +27,7 @@ export class SettingsService {
 
   private readonly _settings: SettingsDto;
 
-  constructor() {
+  private constructor() {
     const json: string = localStorage.getItem('tbg3gp') ?? '{}';
     const data: Partial<SettingsDto> = JSON.parse(json);
 

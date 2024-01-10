@@ -1,0 +1,76 @@
+#tbg3gp .telemetry {
+    position: absolute;
+    top: -2px;
+    left: 332px;
+    padding: 8px;
+
+    background-color: #000610;
+
+    border: 2px solid #ffb600;
+    border-radius: 8px;
+}
+
+#tbg3gp .telemetry .tables {
+    display: flex;
+    gap: 24px;
+}
+
+#tbg3gp .telemetry .table {
+    display: flex;
+    flex-flow: column;
+}
+
+#tbg3gp .telemetry .table .divider {
+    margin: 2px 0;
+
+    border-top: 1px solid rgba(255, 182, 0, 0.25);
+}
+
+#tbg3gp .telemetry .table p {
+    display: inline-flex;
+    justify-content: end;
+    flex: 1;
+}
+
+#tbg3gp .telemetry .table .thead {
+    display: flex;
+
+    text-align: center;
+    font-weight: bold;
+    color: #ffb600;
+}
+
+#tbg3gp .telemetry .table .thead p:first-child {
+    justify-content: start;
+    flex: 2;
+}
+
+#tbg3gp .telemetry .table .tbody .row:first-child {
+    font-weight: bold;
+    color: #ffb600;
+}
+
+#tbg3gp .telemetry .table .row {
+    display: flex;
+    flex: 1;
+}
+
+#tbg3gp .telemetry .table .section {
+    justify-content: center!important;
+    margin: 4px 0;
+    padding-bottom: 4px;
+
+    font-weight: bold;
+    color: #ffb600;
+
+    border-bottom: 1px solid rgba(255, 182, 0, 0.5);
+}
+
+#tbg3gp .telemetry .table .row p {
+    margin: 2px 8px;
+}
+
+#tbg3gp .telemetry .table .row p:first-child {
+    justify-content: start;
+    flex: 2;
+}
