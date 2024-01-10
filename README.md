@@ -1,5 +1,5 @@
 # Twitch BG3 Gamepad
-![version 1.4.0](https://img.shields.io/badge/version-1.4.0-success) ![browsers Chrome | Firefox](https://img.shields.io/badge/browsers-Chrome_|_Firefox-blue) ![License MIT](https://img.shields.io/github/license/poirierlouis/twitch-bg3-gamepad)
+![version 1.5.0](https://img.shields.io/badge/version-1.5.0-success) ![browsers Chrome | Firefox](https://img.shields.io/badge/browsers-Chrome_|_Firefox-blue) ![License MIT](https://img.shields.io/github/license/poirierlouis/twitch-bg3-gamepad)
 
 Plugin sous la forme d'un script JavaScript à installer sur le navigateur.
 Permet d'utiliser une manette de console pour envoyer les commandes au chat 
@@ -35,7 +35,7 @@ Pour supprimer le plugin, il vous suffit d'actualiser la page (`F5`) ou de
 quitter l'onglet. Vous devrez reproduire la procédure d'installation pour 
 utiliser le plugin à nouveau.
 
-Vous pouvez passer en *mode dev* pour tester la manette sans envoyer de 
+Vous pouvez passer en *mode test* pour tester la manette sans envoyer de 
 commande au chat. Activer / désactiver ce mode via le bouton `(--o)`.
 
 Le plugin affiche quelques informations en haut à gauche du navigateur. Vous 
@@ -52,6 +52,11 @@ Vous pouvez modifier des options en déroulant le panneau de configuration via
 l'icône `v`. Un changement prend effet en cliquant en dehors du champ modifié.
 Les changements sont enregistrés dans votre navigateur. Ils seront restitués 
 automatiquement lors de l'installation du plugin.
+
+Les commandes envoyées sont enregistrées sur le navigateur. Cela permet d'
+aggréger des statistiques d'usage par boutons / joysticks / touches du clavier.
+Utiliser le bouton 📊 pour afficher / cacher vos statistiques. Vous pouvez 
+exporter les données via le bouton 💾.
 
 ## Development
 
