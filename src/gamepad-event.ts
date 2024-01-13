@@ -2,13 +2,13 @@ import {GAMEPAD_BUTTONS, GamepadInput, getJoystickButton} from "./gamepad-input"
 import {Vector2} from "./vector2";
 import {JoystickSettingsDto, SettingsService} from "./settings-service";
 
-export interface ButtonReleasedEvent {
+export interface ButtonReleaseEvent {
   readonly button: string;
 
   duration: number;
 }
 
-export interface JoystickMovedEvent {
+export interface JoystickMoveEvent {
   readonly side: Joystick;
   readonly button: string;
 
@@ -29,17 +29,17 @@ export class JoystickEvents {
     'T', 'B', 'L', 'R', 'TL', 'TR', 'BL', 'BR'
   ];
 
-  [key: string]: JoystickMovedEvent | any;
+  [key: string]: JoystickMoveEvent | any;
 
-  T?: JoystickMovedEvent;
-  B?: JoystickMovedEvent;
-  L?: JoystickMovedEvent;
-  R?: JoystickMovedEvent;
+  T?: JoystickMoveEvent;
+  B?: JoystickMoveEvent;
+  L?: JoystickMoveEvent;
+  R?: JoystickMoveEvent;
 
-  TL?: JoystickMovedEvent;
-  TR?: JoystickMovedEvent;
-  BL?: JoystickMovedEvent;
-  BR?: JoystickMovedEvent;
+  TL?: JoystickMoveEvent;
+  TR?: JoystickMoveEvent;
+  BL?: JoystickMoveEvent;
+  BR?: JoystickMoveEvent;
 
   getActiveButton(): string | undefined {
     for (const button of JoystickEvents.buttons) {
@@ -62,28 +62,28 @@ export class JoystickEvents {
 
 export class GamepadEvents {
 
-  [key: string]: ButtonReleasedEvent | any;
+  [key: string]: ButtonReleaseEvent | any;
 
-  private A?: ButtonReleasedEvent;
-  private B?: ButtonReleasedEvent;
-  private X?: ButtonReleasedEvent;
-  private Y?: ButtonReleasedEvent;
+  private A?: ButtonReleaseEvent;
+  private B?: ButtonReleaseEvent;
+  private X?: ButtonReleaseEvent;
+  private Y?: ButtonReleaseEvent;
 
-  private UP?: ButtonReleasedEvent;
-  private DOWN?: ButtonReleasedEvent;
-  private LEFT?: ButtonReleasedEvent;
-  private RIGHT?: ButtonReleasedEvent;
+  private UP?: ButtonReleaseEvent;
+  private DOWN?: ButtonReleaseEvent;
+  private LEFT?: ButtonReleaseEvent;
+  private RIGHT?: ButtonReleaseEvent;
 
-  private LT?: ButtonReleasedEvent;
-  private RT?: ButtonReleasedEvent;
+  private LT?: ButtonReleaseEvent;
+  private RT?: ButtonReleaseEvent;
 
-  private LB?: ButtonReleasedEvent;
-  private RB?: ButtonReleasedEvent;
+  private LB?: ButtonReleaseEvent;
+  private RB?: ButtonReleaseEvent;
 
-  private START?: ButtonReleasedEvent;
+  private START?: ButtonReleaseEvent;
 
-  private L3?: ButtonReleasedEvent;
-  private R3?: ButtonReleasedEvent;
+  private L3?: ButtonReleaseEvent;
+  private R3?: ButtonReleaseEvent;
 
   private LJ: JoystickEvents = new JoystickEvents();
   private RJ: JoystickEvents = new JoystickEvents();
@@ -91,8 +91,8 @@ export class GamepadEvents {
   private lastInput?: GamepadInput;
 
   private readonly settingsService: SettingsService = SettingsService.instance;
-  private readonly queueButtons: ButtonReleasedEvent[] = [];
-  private readonly queueJoysticks: JoystickMovedEvent[] = [];
+  private readonly queueButtons: ButtonReleaseEvent[] = [];
+  private readonly queueJoysticks: JoystickMoveEvent[] = [];
 
   consumeInput(input: GamepadInput): void {
     const delta: number = (this.lastInput) ? input.timestamp - this.lastInput.timestamp : 1 / 60;
@@ -111,11 +111,11 @@ export class GamepadEvents {
   /**
    * Pop first button event from queue or return undefined when queue is empty.
    */
-  nextButton(): ButtonReleasedEvent | undefined {
+  nextButton(): ButtonReleaseEvent | undefined {
     if (this.queueButtons.length === 0) {
       return undefined;
     }
-    const event: ButtonReleasedEvent = this.queueButtons[0];
+    const event: ButtonReleaseEvent = this.queueButtons[0];
 
     this.queueButtons.splice(0, 1);
     return event;
@@ -124,11 +124,11 @@ export class GamepadEvents {
   /**
    * Pop first joystick event from queue or return undefined when queue is empty.
    */
-  nextJoystick(): JoystickMovedEvent | undefined {
+  nextJoystick(): JoystickMoveEvent | undefined {
     if (this.queueJoysticks.length === 0) {
       return undefined;
     }
-    const event: JoystickMovedEvent = this.queueJoysticks[0];
+    const event: JoystickMoveEvent = this.queueJoysticks[0];
 
     this.queueJoysticks.splice(0, 1);
     return event;
@@ -139,7 +139,7 @@ export class GamepadEvents {
 
     if (isPressed) {
       if (this[button] === undefined) {
-        this[button] = <ButtonReleasedEvent>{
+        this[button] = <ButtonReleaseEvent>{
           button: button,
           duration: delta
         };
@@ -159,7 +159,7 @@ export class GamepadEvents {
 
     if (this.isActive(event)) {
       if (events[button] === undefined) {
-        events[button] = <JoystickMovedEvent>{
+        events[button] = <JoystickMoveEvent>{
           side: side,
           button: button,
           duration: delta

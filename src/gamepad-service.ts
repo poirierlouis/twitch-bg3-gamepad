@@ -1,11 +1,11 @@
 import {GamepadInput, getInput} from "./gamepad-input";
-import {ButtonReleasedEvent, GamepadEvents, JoystickMovedEvent} from "./gamepad-event";
+import {ButtonReleaseEvent, GamepadEvents, JoystickMoveEvent} from "./gamepad-event";
 import {GUI} from "./gui";
 
-type ConnectionEventCallback = (gamepad: Gamepad) => void;
-type DisconnectionEventCallback = (gamepad: Gamepad) => void;
-type ButtonReleasedEventCallback = (event: ButtonReleasedEvent) => void;
-type JoystickMovedEventCallback = (event: JoystickMovedEvent) => void;
+type ConnectedCallback = (gamepad: Gamepad) => void;
+type DisconnectedCallback = (gamepad: Gamepad) => void;
+type ButtonReleasedCallback = (event: ButtonReleaseEvent) => void;
+type JoystickMovedCallback = (event: JoystickMoveEvent) => void;
 
 /**
  * Service to detect a gamepad, listen for inputs and trigger custom gamepad events.
@@ -19,10 +19,10 @@ export class GamepadService {
   private pollID?: number;
 
   private readonly events: GamepadEvents = new GamepadEvents();
-  private readonly listenersConnection: ConnectionEventCallback[] = [];
-  private readonly listenersDisconnection: DisconnectionEventCallback[] = [];
-  private readonly listenersButton: ButtonReleasedEventCallback[] = [];
-  private readonly listenersJoystick: JoystickMovedEventCallback[] = [];
+  private readonly listenersConnection: ConnectedCallback[] = [];
+  private readonly listenersDisconnection: DisconnectedCallback[] = [];
+  private readonly listenersButton: ButtonReleasedCallback[] = [];
+  private readonly listenersJoystick: JoystickMovedCallback[] = [];
 
   /**
    * Whether browser support Gamepad API?
@@ -60,19 +60,19 @@ export class GamepadService {
     }
   }
 
-  addConnectionListener(fn: ConnectionEventCallback): void {
+  addConnectionListener(fn: ConnectedCallback): void {
     this.listenersConnection.push(fn);
   }
 
-  addDisconnectionListener(fn: DisconnectionEventCallback): void {
+  addDisconnectionListener(fn: DisconnectedCallback): void {
     this.listenersDisconnection.push(fn);
   }
 
-  addButtonListener(fn: ButtonReleasedEventCallback): void {
+  addButtonListener(fn: ButtonReleasedCallback): void {
     this.listenersButton.push(fn);
   }
 
-  addJoystickListener(fn: JoystickMovedEventCallback): void {
+  addJoystickListener(fn: JoystickMovedCallback): void {
     this.listenersJoystick.push(fn);
   }
 
@@ -167,7 +167,7 @@ export class GamepadService {
   }
 
   private dispatchButtons(): void {
-    let event: ButtonReleasedEvent | undefined;
+    let event: ButtonReleaseEvent | undefined;
 
     while ((event = this.events.nextButton()) !== undefined) {
       const duration: number = event.duration / 1000;
@@ -179,7 +179,7 @@ export class GamepadService {
   }
 
   private dispatchMoves(): void {
-    let event: JoystickMovedEvent | undefined;
+    let event: JoystickMoveEvent | undefined;
 
     while ((event = this.events.nextJoystick()) !== undefined) {
       const duration: number = event.duration / 1000;

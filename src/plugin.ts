@@ -1,4 +1,4 @@
-import {ButtonReleasedEvent, JoystickMovedEvent} from "./gamepad-event";
+import {ButtonReleaseEvent, JoystickMoveEvent} from "./gamepad-event";
 import {GUI} from "./gui";
 import {GamepadService} from "./gamepad-service";
 import {SettingsService} from "./settings-service";
@@ -109,7 +109,7 @@ export class Plugin {
     }
   }
 
-  private onButtonReleased(event: ButtonReleasedEvent): void {
+  private onButtonReleased(event: ButtonReleaseEvent): void {
     if (event.button === 'START') {
       this.gui.toggleVisibility();
       return;
@@ -122,7 +122,7 @@ export class Plugin {
     this.send(command, 'gamepad');
   }
 
-  private onJoystickMoved(event: JoystickMovedEvent): void {
+  private onJoystickMoved(event: JoystickMoveEvent): void {
     let command: string = `M${event.side === 'left' ? 'L' : 'R'}${event.button}`;
 
     if (event.duration >= this.settingsService.longMoveDuration) {
