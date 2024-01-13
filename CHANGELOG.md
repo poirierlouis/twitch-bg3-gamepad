@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+------------------------
+
+## [1.6.0] - 2024-01-13
 ### Added
 - button SELECT to toggle test mode.
 
@@ -84,7 +88,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - shortcut to show/hide GUI.
 
 <!-- Table of releases -->
-[Unreleased]: https://github.com/poirierlouis/twitch-bg3-gamepad/compare/v1.5.1...HEAD
+[Unreleased]: https://github.com/poirierlouis/twitch-bg3-gamepad/compare/v1.6.0...HEAD
+[1.6.0]: https://github.com/poirierlouis/twitch-bg3-gamepad/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/poirierlouis/twitch-bg3-gamepad/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/poirierlouis/twitch-bg3-gamepad/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/poirierlouis/twitch-bg3-gamepad/compare/v1.3.0...v1.4.0
