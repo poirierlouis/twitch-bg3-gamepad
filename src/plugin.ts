@@ -115,6 +115,10 @@ export class Plugin {
       this.gui.toggleVisibility();
       return;
     }
+    if (event.button === 'SELECT') {
+      this.gui.toggleTestMode();
+      return;
+    }
     let command: string = event.button;
 
     if (event.duration >= this.settingsService.longPressDuration) {

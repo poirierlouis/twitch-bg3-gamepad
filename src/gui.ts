@@ -149,6 +149,10 @@ export class GUI extends Component {
     this.$root.style.display = (this.isVisible) ? '' : 'none';
   }
 
+  toggleTestMode(): void {
+    this.onTestModeSwitched();
+  }
+
   addTestModeListener(fn: TestModeCallback): void {
     this.listenerTestMode = fn;
   }

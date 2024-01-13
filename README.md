@@ -36,7 +36,8 @@ quitter l'onglet. Vous devrez reproduire la procédure d'installation pour
 utiliser le plugin à nouveau.
 
 Vous pouvez passer en *mode test* pour tester la manette sans envoyer de 
-commande au chat. Activer / désactiver ce mode via le bouton `(--o)`.
+commande au chat. Activer / désactiver ce mode via le bouton `(--o)` ou la 
+touche `SELECT` de la manette.
 
 Le plugin affiche quelques informations en haut à gauche du navigateur. Vous 
 pouvez afficher/cacher l'interface en appuyant sur la touche `²` du clavier ou

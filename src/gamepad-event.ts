@@ -80,6 +80,7 @@ export class GamepadEvents {
   private LB?: ButtonReleaseEvent;
   private RB?: ButtonReleaseEvent;
 
+  private SELECT?: ButtonReleaseEvent;
   private START?: ButtonReleaseEvent;
 
   private L3?: ButtonReleaseEvent;
