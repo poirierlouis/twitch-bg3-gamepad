@@ -47,6 +47,7 @@ export class Plugin {
   /**
    * Send message using UI.
    * @param message to send on chat.
+   * @param section of telemetry to record to.
    */
   private async send(message: string, section: TelemetrySection): Promise<void> {
     if (this.dropFirstCommand) {
