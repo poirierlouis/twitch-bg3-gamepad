@@ -1,5 +1,5 @@
-# Twitch BG3 Gamepad
-![version 1.6.0](https://img.shields.io/badge/version-1.6.0-success) ![browsers Chrome | Firefox](https://img.shields.io/badge/browsers-Chrome_|_Firefox-blue) ![License MIT](https://img.shields.io/github/license/poirierlouis/twitch-bg3-gamepad)
+# Twitch Plays w/ Gamepad
+![version 1.6.0](https://img.shields.io/badge/version-1.6.0-success) ![browsers Chrome | Firefox](https://img.shields.io/badge/browsers-Chrome_|_Firefox-blue) ![License MIT](https://img.shields.io/github/license/rayshader/twitch-plays-gamepad)
 
 Plugin sous la forme d'un script JavaScript à installer sur le navigateur.
 Permet d'utiliser une manette de console pour envoyer les commandes au chat 
@@ -9,7 +9,7 @@ simplement et rapidement.
 
 ## Installation
 
-1. Ouvrir le fichier [plugin.js](https://github.com/poirierlouis/twitch-bg3-gamepad/releases/latest).
+1. Ouvrir le fichier [plugin.js](https://github.com/rayshader/twitch-plays-gamepad/releases/latest).
 2. Copier tout le code (`CTRL+A` > `CTRL+C`).
 3. Ouvrir (ou accéder) à l'onglet Twitch, avec la chaîne et le chat d'ouvert.
 4. Ouvrir la console de développeur (`CTRL+SHIFT+I`).
@@ -64,7 +64,7 @@ exporter les données via le bouton 💾.
 You need NPM (with Node.js) on your system.
 
 1. Clone repository:
-> git clone https://github.com/poirierlouis/twitch-bg3-gamepad.git
+> git clone https://github.com/rayshader/twitch-plays-gamepad.git
 
 2. Setup project:
 > npm install
@@ -76,7 +76,7 @@ This will output a `plugin.js` which contains the entire codebase to copy/paste
 in browser's DevTools. This is the file to release to users.
 
 When developing, you can enable logging by changing 
-[Plugin.logging](https://github.com/poirierlouis/twitch-bg3-gamepad/blob/1a23261f5ac7a0df97d0f47f9bd8009f562129b9/src/plugin.ts#L16) 
+[Plugin.logging](https://github.com/rayshader/twitch-plays-gamepad/blob/1a23261f5ac7a0df97d0f47f9bd8009f562129b9/src/plugin.ts#L16) 
 to `true`. 
 
 You can open [plugin.html](plugin.html) in your browser and run project with hot-reload 
